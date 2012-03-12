@@ -1,0 +1,5 @@
+Options -Indexes
+
+ErrorDocument 403 http://20xxproductions.com/403.php
+ErrorDocument 404 http://20xxproductions.com/404.php
+ErrorDocument 500 http://20xxproductions.com/500.php

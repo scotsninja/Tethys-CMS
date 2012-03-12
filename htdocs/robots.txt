@@ -1,0 +1,12 @@
+Sitemap: http://20xxproductions.com/sitemap.xml
+
+User-agent: *
+Disallow: /admin/
+Disallow: /ajax/
+Disallow: /ckeditor/
+Disallow: /css/
+Disallow: /js/
+Disallow: /plupload/
+Disallow: /recaptcha/
+Disallow: /src/
+Disallow: /uploads/

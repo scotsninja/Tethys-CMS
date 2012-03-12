@@ -1,0 +1,15 @@
+<?php
+/* Copyright 20xx Productions */
+
+/* meta tags */
+$metaTitle = SITE_TITLE.' Sitemap';
+
+include(CORE_INCLUDE_DIR.'header.php');
+
+SystemMessage::output();
+
+?>
+<h1>Sitemap</h1>
+#SITEMAP-CONTENT#
+
+<?php include(CORE_INCLUDE_DIR.'footer.php'); ?>

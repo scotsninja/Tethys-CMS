@@ -1,0 +1,11 @@
+.mobileHide {
+	display:none;
+}
+
+footer {
+	position:relative;
+}
+
+#footerTop {
+	display:none;
+}
