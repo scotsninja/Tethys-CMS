@@ -337,6 +337,7 @@ class Page extends Outputtable implements iTethysBase {
 		// insert page info into db
 		$query = "INSERT INTO `pages` (`pageUserId`, `pageName`, `pageValue`, `pageCSS`, `pageTitle`, `pageDescription`, `pageKeywords`, `pageAuthor`, `pageUrl`, `pageFile`, `pageProtected`, `pageUserLevel`, `pageComments`, `pageWidth`, `pageIncludePage`, `pageIncludePosition`, `pageDateUpdated`, `pageDateCreated`, `pageActive`) VALUES (:user, :name, :value, :css, :title, :description, :keywords, :author, :url, :file, :protected, :userLevel, :comments, :width, :includePage, :includePosition, :dateU, :dateC, :active)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'user' => $GLOBALS['userObj']->id,
 			'name' => $name,
@@ -355,8 +356,8 @@ class Page extends Outputtable implements iTethysBase {
 			'includePage' => $includePage,
 			'includePosition' => $includePosition,
 			'active' => $active,
-			'dateU' => date(DATE_SQL_FORMAT),
-			'dateC' => date(DATE_SQL_FORMAT)
+			'dateU' => $dt->format(DATE_SQL_FORMAT),
+			'dateC' => $dt->format(DATE_SQL_FORMAT)
 		);
 
 		try {
@@ -829,6 +830,7 @@ class Page extends Outputtable implements iTethysBase {
 		// insert page info into db
 		$query = "INSERT INTO `temp_pages` (`tpValue`, `tpCSS`, `tpTitle`, `tpComments`, `tpWidth`, `tpIncludePage`, `tpIncludePosition`, `tpDateCreated`) VALUES (:value, :css, :title, :comments, :width, :includePage, :includePosition, :date)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'value' => $value,
 			'css' => $css,
@@ -837,7 +839,7 @@ class Page extends Outputtable implements iTethysBase {
 			'width' => $width,
 			'includePage' => $includePage,
 			'includePosition' => $includePosition,
-			'date' => date(DATE_SQL_FORMAT)
+			'date' => $dt->format(DATE_SQL_FORMAT)
 		);
 
 		try {

@@ -736,7 +736,7 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 				
 				$trClass = ($i%2==0) ? 'oddCell' : 'evenCell'; ?>
 				<tr class="<?php echo $trClass; ?>">
-					<td nowrap="nowrap" class="tdCenter"><a href="admin_blogs.php?v=details&t=edit&id=<?php echo $blogs[$i]->id; ?>"><img class="tdIcon" src="/img/icons/config.png" alt="Edit" /></a></td>
+					<td nowrap="nowrap" class="tdCenter"><a href="admin_blogs.php?v=details&t=edit&p=posts&id=<?php echo $blogs[$i]->id; ?>"><img class="tdIcon" src="/img/icons/config.png" alt="Edit" /></a></td>
 					<td><?php echo Tooltip::outputInfo($infoText); ?></td>
 					<td><?php echo $blogs[$i]->name; ?></td>
 					<td><a href="<?php echo $blogs[$i]->fullUrl; ?>" target="_blank"><?php echo $blogs[$i]->fullUrl; ?></a></td>

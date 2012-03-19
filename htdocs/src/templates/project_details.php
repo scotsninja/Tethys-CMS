@@ -5,7 +5,7 @@ extract($params);
 $perPanel = 8;
 $numPanels = ceil($totalImages / $perPanel);
 ?>
-<div class="eightcol">
+<div class="<?php echo ($GLOBALS['isMobile']) ? 'twelvecol last' : 'eightcol'; ?>">
 	<div class="box">
 		<div class="heading"><?php echo $name; ?></div>
 	<?php if ($url != '') { ?>
@@ -25,6 +25,42 @@ $numPanels = ceil($totalImages / $perPanel);
 		<div><?php echo $details; ?></div>
 	<?php } ?>
 	</div>
+<?php if ($GLOBALS['isMobile']) { ?>
+	<div class="box" style="height:500px;">
+		<div class="heading">Gallery</div>
+	<?php if (is_array($images)) {
+		if ($numPanels > 1) { ?>
+			<div id="galleryNav">
+				<div id="previous" style="display:none;"><a href="javascript:void(0);" onclick="previousPanel();" class="button button-blue">Previous</a></div>
+				<div id="next"><a href="javascript:void(0);" onclick="nextPanel();" class="button button-blue">Next</a></div>
+			</div>
+		<?php }
+		
+		for ($i = 0; $i < $numPanels; $i++) {
+			$startIndex = $i*$perPanel;
+			$display = ($i == 0) ? 'block' : 'none'; ?>
+			<div id="galleryPanel<?php echo $i; ?>" class="galleryPanel" style="display:<?php echo $display; ?>;">
+				<ul>
+			<?php for ($j = $startIndex; $j < ($startIndex+$perPanel); $j++) {
+				if ($images[$j]) { ?>
+					<li<?php echo ($j%2==0) ? ' style="clear:left;"' : ''; ?>>
+						<div class="item">
+							<div class="imgWrapper imgWrapper75"><a class="fbox-img" href="<?php echo $images[$j]['path']; ?>" rel="gallery<?php echo $i; ?>" title="<?php echo $images[$j]['caption']; ?>"><img src="<?php echo $images[$j]['path']; ?>" alt="<?php echo $images[$j]['title']; ?>" /></a></div>
+						<?php if ($images[$j]['title'] != '') { ?>
+							<div class="title"><?php echo $images[$j]['title']; ?></div>
+						<?php } ?>
+						</div>
+					</li>
+				<?php } ?>
+			<?php } ?>
+				</ul>
+			</div>
+		<?php } ?>
+	<?php } else { ?>
+		<div><div class="imgWrapper imgWrapper150"><img src="/img/skin/no_img_available.png" alt="No Image Available" /></div></div>
+	<?php } ?>
+	</div>
+<?php } ?>
 <?php if ($comments) { ?>
 	<div class="box">
 		<div class="heading">Comments</div>
@@ -32,6 +68,7 @@ $numPanels = ceil($totalImages / $perPanel);
 	</div>
 <?php } ?>
 </div>
+<?php if (!$GLOBALS['isMobile']) { ?>
 <div class="fourcol last">
 	<div class="box" style="height:500px;">
 		<div class="heading">Gallery</div>
@@ -68,6 +105,7 @@ $numPanels = ceil($totalImages / $perPanel);
 	<?php } ?>
 	</div>
 </div>
+<?php } ?>
 <?php $headers['js'] = '<script type="text/javascript">
 	$(document).ready(function() {
 		initFancyBox();

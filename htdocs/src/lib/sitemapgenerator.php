@@ -136,9 +136,9 @@ class SitemapGenerator {
 					$url = $this->map->createElement('url');
 
 					if ($d['lastmod'] != '') {
-						$dt = (!($d['lastmod'] instanceof DateTime)) ? new DateTime($d['lastmod']) : $d['lastmod'];
+						$dt = (!($d['lastmod'] instanceof DateTime)) ? new DateTime($d['lastmod'], new DateTimeZone(DATE_DEFAULT_TIMEZONE)) : $d['lastmod'];
 					} else {
-						$dt = new DateTime();
+						$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					}
 					
 					//$locVal = rawurlencode($d['url']);

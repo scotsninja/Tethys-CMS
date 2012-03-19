@@ -258,12 +258,13 @@ class User implements iTethysBase {
 		// insert user info into db
 		$query = "INSERT INTO `users` (`userEmail`, `userPassword`, `userFacebookId`, `userLevel`, `userDateJoined`, `userAccessKey`) VALUES (:email, :password, :facebookId, :level, :date, :key)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'email' => $email,
 			'password' => encryptPassword($passwd),
 			'level' => 'user',
 			'key' => $accessKey,
-			'date' => date(DATE_SQL_FORMAT)
+			'date' => $dt->format(DATE_SQL_FORMAT)
 		);
 
 		$params['facebookId'] = ($facebookId > 0) ? $facebookId : null;
@@ -337,12 +338,13 @@ class User implements iTethysBase {
 		// insert user info into db
 		$query = "INSERT INTO `users` (`userEmail`, `userPassword`, `userFacebookId`, `userLevel`, `userDateJoined`) VALUES (:email, :password, :facebookId, :level, :date)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'email' => $email,
 			'password' => encryptPassword($passwd),
 			'level' => 'user',
 			'facebookId' => null,
-			'date' => date(DATE_SQL_FORMAT)
+			'date' => $dt->format(DATE_SQL_FORMAT)
 		);
 
 		try {
@@ -859,7 +861,7 @@ class User implements iTethysBase {
 	// return true if the user is currently banned (id, email or IP)
 	// @todo: need to redo the way the banned items are stored and retrieved, but this works for now
 	public function isBanned() {
-		$now = new DateTime('now');
+		$now = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$banned = false;
 		
 		// check for banned IP
@@ -873,7 +875,7 @@ class User implements iTethysBase {
 					break;
 				} // if expiry date is set, it is a suspension, so need to check if it is in the past or future
 				else {
-					$dateExpires = new DateTime($ban->dateExpires);
+					$dateExpires = new DateTime($ban->dateExpires, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					
 					if ($now < $dateExpires) {
 						return true;
@@ -894,7 +896,7 @@ class User implements iTethysBase {
 					break;
 				} // if expiry date is set, it is a suspension, so need to check if it is in the past or future
 				else {
-					$dateExpires = new DateTime($ban->dateExpires);
+					$dateExpires = new DateTime($ban->dateExpires, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					
 					if ($now < $dateExpires) {
 						return true;
@@ -915,7 +917,7 @@ class User implements iTethysBase {
 					break;
 				} // if expiry date is set, it is a suspension, so need to check if it is in the past or future
 				else {
-					$dateExpires = new DateTime($ban->dateExpires);
+					$dateExpires = new DateTime($ban->dateExpires, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					
 					if ($now < $dateExpires) {
 						return true;
@@ -977,7 +979,7 @@ class User implements iTethysBase {
 			return array('status' => 'active', 'description' => null);
 		}
 		
-		$now = new DateTime('now');
+		$now = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		
 		// retrieve bans on user account and email address
 		$userBans = Ban::search(array('type' => 'user', 'value' => $this->id));
@@ -987,7 +989,7 @@ class User implements iTethysBase {
 			foreach ($userBans as $ban) {
 				// if expiry date is set, it is a suspension, so need to check if it is in the past or future
 				if ($ban->dateExpires != '' & $ban->dateExpires != '0000-00-00 00:00:00') {
-					$dateExpires = new DateTime($ban->dateExpires);
+					$dateExpires = new DateTime($ban->dateExpires, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					
 					if ($now < $dateExpires) {
 						$statusArr = array('status' => 'suspended', 'description' => $ban->notes);
@@ -1004,7 +1006,7 @@ class User implements iTethysBase {
 			foreach ($emailBans as $ban) {
 				// if expiry date is set, it is a suspension, so need to check if it is in the past or future
 				if ($ban->dateExpires != '' & $ban->dateExpires != '0000-00-00 00:00:00') {
-					$dateExpires = new DateTime($ban->dateExpires);
+					$dateExpires = new DateTime($ban->dateExpires, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					
 					if ($now < $dateExpires) {
 						$statusArr = array('status' => 'suspended', 'description' => $ban->notes);
@@ -1037,13 +1039,14 @@ class User implements iTethysBase {
 	public static function recordLogin($uname = null, $uid = 0, $action = 'failure') {
 		$query = "INSERT INTO `user_activity` (`uaAction`, `uaUserId`, `uaUsername`, `uaIPAddress`, `uaClient`, `uaDate`) VALUES (:action, :id, :uname, :ip, :client, :date)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'action' => $action,
 			'id' => $uid,
 			'uname' => $uname,
 			'ip' => $_SERVER['REMOTE_ADDR'],
 			'client' => $_SERVER['HTTP_USER_AGENT'],
-			'date' => date(DATE_SQL_FORMAT)
+			'date' => $dt->format(DATE_SQL_FORMAT)
 		);
 		
 		try {

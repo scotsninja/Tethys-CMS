@@ -52,8 +52,12 @@ class RssFeed {
 		
 		$this->loadItems();
 		
-		$this->pubDate = date('D, d M Y H:i:s e', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
-		$this->lastBuildDate = date('D, d M Y H:i:s e');
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		$this->lastBuildDate = $dt->format('D, d M Y H:i:s e');
+		
+		$dt->setTime(0, 0, 0);
+		$this->pubDate = $dt->format('D, d M Y H:i:s e');
+		
 		$this->ttl = 60;
 		$this->webMaster = CORE_WEBMASTER;
 		$this->generator = 'TethysCMS '.CORE_VERSION;

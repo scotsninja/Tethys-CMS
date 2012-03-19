@@ -46,6 +46,7 @@ class Benchmark {
 		$execTime = ($endTime - $this->startTime);
 
 		$query = "INSERT INTO `benchmarking` (`bmPageId`, `bmPage`, `bmAction`, `bmExecTime`, `bmNotes`, `bmVars`, `bmScriptEnd`, `bmDate`, `bmTimeStart`, `bmTimeEnd`) VALUES (:pageId, :page, :action, :time, :notes, :vars, :scriptEnd, :date, :start, :end)";
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'pageId' => $this->pageId,
 			'page' => $this->page,
@@ -56,7 +57,7 @@ class Benchmark {
 			'scriptEnd' => $scriptEnd,
 			'start' => $this->startTime,
 			'end' => $endTime,
-			'date' => date(DATE_SQL_FORMAT)
+			'date' => $dt->format(DATE_SQL_FORMAT)
 		);
 		
 		try {

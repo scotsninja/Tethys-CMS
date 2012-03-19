@@ -6,6 +6,10 @@ if ($perRow < 1) {
 	$perRow = 4;
 }
 
+if ($GLOBALS['isMobile']) {
+	$perRow = 2;
+}
+
 // calculate number of rows
 $numResults = count($results);
 $numRows = ceil(($numResults/$perRow));

@@ -60,11 +60,11 @@ if ($action == 'blog-posts-search') {
 			for ($i = 0; $i < count($posts); $i++) {
 				$trClass = ($i%2==0) ? 'oddCell' : 'evenCell';
 				
-				$postDt = new DateTime($posts[$i]->datePosted);
+				$postDt = new DateTime($posts[$i]->datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 				
 				$ret .= '<tr class="'. $trClass.'">
 					<td nowrap="nowrap" class="tdCenter"><a href="javascript:void(0);" onclick="loadPost('.$posts[$i]->id.');"><img class="tdIcon" src="/img/icons/config.png" alt="Edit" /></a></td>
-					<td>'.$postDt->format('m/d/Y <b\r />H:i').'</td>
+					<td>'.$postDt->format('m/d/Y <b\r />H:i e').'</td>
 					<td>'.$posts[$i]->title.'</td>
 					<td><a href="'.$posts[$i]->fullUrl.'" target="_blank">'.(($posts[$i]->url != '') ? $posts[$i]->url : 'View').'</a></td>
 					<td>'.$posts[$i]->tags.'</td>

@@ -5,6 +5,18 @@ extract($params);
 $blogs = Blog::search();
 ?>
 <div class="twelvecol last">
+<?php if ($blogs && $GLOBALS['isMobile']) { ?>
+	<div class="box">
+		<div id="blog-list">
+			<div class="heading">Blogs</div>
+			<ul>
+			<?php foreach ($blogs as $b) { ?>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
+			<?php } ?>
+			</ul>
+		</div>
+	</div>
+<?php } ?>
 	<div id="blog-header">
 		<div class="imgWrapper imgWrapper150" style="float:left;margin-right:15px;"><a href="<?php echo $baseUrl; ?>"><img style="max-height:70px;" src="<?php echo $icon; ?>" alt="" /></a></div>
 		<h1><a href="<?php echo $baseUrl; ?>"><?php echo $name; ?></a></h1>
@@ -29,18 +41,22 @@ $blogs = Blog::search();
 		<?php $i = 0;
 		foreach ($posts as $post) { ?>
 			<div class="post <?php echo ($i++%2==0) ? 'evenRow' : 'oddRow'; ?>">
+			<?php if (new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE)) < new DateTime($post->datePosted)) { ?>
+				<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?> (Not Active)</a></h4>
+			<?php } else { ?>
 				<h4><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?></a></h4>
+			<?php } ?>
 				<div class="excerpt"><?php echo $post->getBlurb(); ?></div>
 			<?php if ($post->tags != '') { ?>
 				<div class="tags">
 				<?php $totTags = count($post->tagArr);
 				for($j = 0; $j < $totTags; $j++) { ?>
-					<a href="<?php echo $baseUrl.'?tag='.$post->tagArr[$j]; ?>"><?php echo $post->tagArr[$j]; ?></a>
+					<a href="<?php echo $baseUrl.'?tag='.rawurlencode($post->tagArr[$j]); ?>"><?php echo $post->tagArr[$j]; ?></a>
 					<?php if ($j < ($totTags-1)) { echo ' | '; } ?>
 				<?php } ?>
 				</div>
 			<?php } ?>
-				<div class="date">Posted on <?php $dt = new DateTime($post->datePosted); echo $dt->format('M j, Y \a\t H:i'); ?></div>
+				<div class="date">Posted on <?php $dt = new DateTime($post->datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE)); echo $dt->format(DATE_DISPLAY_FORMAT_DATETIME); ?></div>
 			</div>
 		<?php } ?>
 		<?php if (ceil($totalPosts/$perPage) > 1) { ?>
@@ -60,13 +76,13 @@ $blogs = Blog::search();
 	<div id="blog-footer"></div>
 </div>
 <div class="fourcol last">
-<?php if ($blogs) { ?>
+<?php if ($blogs && !$GLOBALS['isMobile']) { ?>
 	<div class="box">
 		<div id="blog-list">
 			<div class="heading">Blogs</div>
 			<ul>
 			<?php foreach ($blogs as $b) { ?>
-				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo $b->categories; ?></li>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
 			<?php } ?>
 			</ul>
 		</div>
@@ -87,7 +103,7 @@ $blogs = Blog::search();
 		<?php if (is_array($tags)) { ?>
 			<div class="tagcloud">
 			<?php foreach ($tags as $tag) { ?>
-				<span class="<?php echo $tag['weight']; ?>"><a href="<?php echo $baseUrl; ?>?tag=<?php echo $tag['value']; ?>"><?php echo $tag['value']; ?></a></span>
+				<span class="<?php echo $tag['weight']; ?>"><a href="<?php echo $baseUrl; ?>?tag=<?php echo rawurlencode($tag['value']); ?>"><?php echo $tag['value']; ?></a></span>
 			<?php } ?>
 			</div>
 		<?php } ?>
@@ -106,6 +122,6 @@ $blogs = Blog::search();
 		</div>
 	</div>
 	<?php if ($rss && file_exists($rss)) { ?>
-		<div id="feed"><a href="/<?php echo $rss; ?>"><img src="/<?php echo CORE_DIR_DEPTH.CORE_ICON_PATH.'rss_feed.png'; ?>" alt="RSS Feed" / > Subscribe</a></div>
+		<div id="feed"><a href="/<?php echo $rss; ?>"><img src="/<?php echo CORE_DIR_DEPTH.CORE_ICON_PATH.'rss_32.png'; ?>" alt="RSS Feed" / > Subscribe</a></div>
 	<?php } ?>
 </div>

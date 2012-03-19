@@ -26,7 +26,6 @@ $includeParams = (is_array($includeParams)) ? array_merge($includeDefaults, $inc
 <!-- 1140px Grid styles for IE -->
 <!--[if lte IE 9]><link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>/ie.css" type="text/css" media="screen" /><![endif]-->
 <!-- The 1140px Grid - http://cssgrid.net/ -->
-<link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>1140.css" type="text/css" />
 <?php if ($includeParams['jquery-ui']) { ?>
 <link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>jquery-themes/overcast/jquery-ui-1.8.17.custom.css">
 <?php } ?>

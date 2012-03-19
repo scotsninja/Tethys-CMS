@@ -9,7 +9,6 @@ if ($_POST['requireLogin']) {
 	$action = $_POST['action'];
 }
 
-
 $error = array('type' => MSG_ERROR, 'message' => 'Error: Unknown action');
 
 if ($error) {

@@ -16,15 +16,19 @@ $blogs = Blog::search();
 <div class="eightcol" style="margin-right:3%;">
 	<div class="box">
 		<div class="post">
+		<?php if (new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE)) < new DateTime($postDate)) { ?>
+			<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><?php echo $postTitle; ?> (Not Active)</h4>
+		<?php } else { ?>
 			<h4><?php echo $postTitle; ?></h4>
-			<div class="date">Posted on <?php $dt = new DateTime($postDate); echo $dt->format('M j, Y \a\t H:i'); ?></div>
+		<?php } ?>
+			<div class="date">Posted on <?php $dt = new DateTime($postDate, new DateTimeZone(DATE_DEFAULT_TIMEZONE)); echo $dt->format(DATE_DISPLAY_FORMAT_DATETIME); ?></div>
 			<div class="excerpt"><?php echo $postValue; ?></div>
 		<?php if ($postTags != '') { ?>
 			<div class="tags">
 			<?php $tagArr = explode(',', $postTags);
 			$totTags = count($tagArr);
 			for($i = 0; $i < $totTags; $i++) { ?>
-				<a href="<?php echo $baseUrl.'?tag='.$tagArr[$i]; ?>"><?php echo $tagArr[$i]; ?></a>
+				<a href="<?php echo $baseUrl.'?tag='.rawurlencode($tagArr[$i]); ?>"><?php echo $tagArr[$i]; ?></a>
 				<?php if ($i < ($totTags-1)) { echo ' | '; } ?>
 			<?php } ?>
 			</div>
@@ -38,13 +42,13 @@ $blogs = Blog::search();
 	<div id="blog-footer"></div>
 </div>
 <div class="fourcol last">
-<?php if ($blogs) { ?>
+<?php if ($blogs && !$GLOBALS['isMobile']) { ?>
 	<div class="box">
 		<div id="blog-list">
 			<div class="heading">Blogs</div>
 			<ul>
 			<?php foreach ($blogs as $b) { ?>
-				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo $b->categories; ?></li>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
 			<?php } ?>
 			</ul>
 		</div>
@@ -65,7 +69,7 @@ $blogs = Blog::search();
 		<?php if (is_array($tags)) { ?>
 			<div class="tagcloud">
 			<?php foreach ($tags as $tag) { ?>
-				<span class="<?php echo $tag['weight']; ?>"><a href="<?php echo $baseUrl; ?>?tag=<?php echo $tag['value']; ?>"><?php echo $tag['value']; ?></a></span>
+				<span class="<?php echo $tag['weight']; ?>"><a href="<?php echo $baseUrl; ?>?tag=<?php echo rawurlencode($tag['value']); ?>"><?php echo $tag['value']; ?></a></span>
 			<?php } ?>
 			</div>
 		<?php } ?>
@@ -84,6 +88,6 @@ $blogs = Blog::search();
 		</div>
 	</div>
 	<?php if ($rss && file_exists($rss)) { ?>
-		<div id="feed"><a href="/<?php echo $rss; ?>"><img src="/<?php echo CORE_DIR_DEPTH.CORE_ICON_PATH.'rss_feed.png'; ?>" alt="RSS Feed" / > Subscribe</a></div>
+		<div id="feed"><a href="/<?php echo $rss; ?>"><img src="/<?php echo CORE_DIR_DEPTH.CORE_ICON_PATH.'rss_32.png'; ?>" alt="RSS Feed" / > Subscribe</a></div>
 	<?php } ?>
 </div>

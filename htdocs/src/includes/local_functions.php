@@ -589,13 +589,15 @@ function recordPageView() {
 	$userId = (User::isLoggedIn()) ? $GLOBALS['userObj']->id : 0;
 	
 	$query = "INSERT INTO `page_views` (`pvUserId`, `pvIPAddress`, `pvPage`, `pvReferringPage`, `pvClient`, `pvDate`) VALUES (:userId, :ip, :page, :referringPage, :client, :date)";
+	
+	$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 	$params = array(
 		'userId' => $userId,
 		'ip' => $_SERVER['REMOTE_ADDR'],
 		'page' => $_GET['url'],
 		'referringPage' => $_SERVER['HTTP_REFERER'],
 		'client' => $_SERVER['HTTP_USER_AGENT'],
-		'date' => date(DATE_SQL_FORMAT)
+		'date' => $dt->format(DATE_SQL_FORMAT)
 	);
 	
 	return $GLOBALS['dbObj']->insert($query, $params);

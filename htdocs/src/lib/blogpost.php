@@ -284,13 +284,16 @@ class BlogPost extends Outputtable implements iTethysBase {
 			$excerpt = substr(strip_tags($value), 0, 200);
 		}
 		
-		if ($datePosted == '') {
-			$datePosted = date(DATE_SQL_FORMAT);
+		if ($datePosted != '') {
+			$datePosted = new DateTime($datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		} else {
+			$datePosted = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		}
 		
 		// insert blog info into db
 		$query = "INSERT INTO `blog_posts` (`bpBlogId`, `bpTitle`, `bpExcerpt`, `bpUrl`, `bpValue`, `bpComments`, `bpDatePosted`, `bpDateCreated`) VALUES (:blog, :title, :excerpt, :url, :value, :comments, :dtPost, :dtAdd)";
 		
+		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'blog' => $blog,
 			'title' => $title,
@@ -298,8 +301,8 @@ class BlogPost extends Outputtable implements iTethysBase {
 			'url' => $url,
 			'value' => $value,
 			'comments' => $comments,
-			'dtPost' => $datePosted,
-			'dtAdd' => date(DATE_SQL_FORMAT)
+			'dtPost' => $datePosted->format(DATE_SQL_FORMAT),
+			'dtAdd' => $dt->format(DATE_SQL_FORMAT)
 		);
 		
 		try {
@@ -528,13 +531,15 @@ class BlogPost extends Outputtable implements iTethysBase {
 			return false;
 		}
 		
-		if ($val == '') {
-			$val = date(DATE_SQL_FORMAT);
+		if ($val != '') {
+			$val = new DateTime($val, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		} else {
+			$val = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		}
 		
 		$query = "UPDATE `blog_posts` SET `bpDatePosted`=:val WHERE `bpId`=:id";
 		$params = array('id' => $this->id,
-			'val' => $val
+			'val' => $val->format(DATE_SQL_FORMAT)
 		);
 		
 		try {
@@ -557,8 +562,8 @@ class BlogPost extends Outputtable implements iTethysBase {
 	}
 	
 	public function canView() {
-		$dtNow = new DateTime();
-		$dtPost = new DateTime($this->datePosted);
+		$dtNow = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		$dtPost = new DateTime($this->datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 
 		return ($dtNow < $dtPost) ? User::isAdmin() : true;
 	}

@@ -33,7 +33,7 @@ class RssFeedItem {
 		$this->category = $cateogyr;
 		$this->comments = $comments;
 		
-		$dt = new DateTime($pubDate);
+		$dt = new DateTime($pubDate, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$this->pubDate = $dt->format('D, d M Y H:i:s e');
 		
 		$this->guid = substr(md5($link), 0, 10);
