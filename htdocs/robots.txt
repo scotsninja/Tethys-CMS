@@ -1,5 +1,3 @@
-Sitemap: http://20xxproductions.com/sitemap.xml
-
 User-agent: *
 Disallow: /admin/
 Disallow: /ajax/
