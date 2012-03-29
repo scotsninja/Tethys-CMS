@@ -141,7 +141,6 @@ class SitemapGenerator {
 						$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 					}
 					
-					//$locVal = rawurlencode($d['url']);
 					$locVal = str_replace(array('&', '<', '>', '"', "'"), array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'), $d['url']);
 					$lastmodVal = $dt->format('c');
 					$frequencyVal = (SitemapGenerator::isValidFrequency($d['frequency'])) ? $d['frequency'] : 'monthly';
@@ -167,7 +166,6 @@ class SitemapGenerator {
 				}
 			}
 		}
-		
 	}
 	
 	// create an HTML sitemap
@@ -244,7 +242,12 @@ class SitemapGenerator {
 	private function writeXML() {
 		$this->map->appendChild($this->mapSet);
 		
-		return ($this->map->save($this->file)) ? true : false;
+		try {
+			return ($this->map->save($this->file)) ? true : false;
+		} catch (Exception $e) {
+			SystemMessage::log(MSG_FATAL, 'Error saving sitemap: '.$this->file);
+			return false;
+		}
 	}
 	
 	/* UTILTIES */

@@ -20,6 +20,10 @@ $includeParams = (is_array($includeParams)) ? array_merge($includeDefaults, $inc
 <meta name="copyright" content="&copy; <?php echo date('Y'); ?> <?php echo SITE_TITLE; ?>" />
 <meta name="generator" content="TethysCMS <?php echo CORE_VERSION; ?>" />
 
+<?php if (isset($includes['headers'])) {
+echo $includes['headers'];
+} ?>
+
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>reset.css" />
@@ -37,8 +41,8 @@ $includeParams = (is_array($includeParams)) ? array_merge($includeDefaults, $inc
 <link media="only screen and (max-device-width: 480px)" href="/<?php echo CORE_CSS_DIR; ?>mobile.css" type="text/css" rel="stylesheet" />
 <?php } ?>
 
-<?php if (isset($headers['css'])) {
-echo $headers['css'];
+<?php if (isset($includes['css'])) {
+echo $includes['css'];
 } ?>
 
 </head>

@@ -55,7 +55,7 @@ if (is_array($results)) {
 	}
 }
 
-$headers['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
+$includes['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
 
 include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 

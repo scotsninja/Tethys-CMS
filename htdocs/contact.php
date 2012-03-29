@@ -7,9 +7,9 @@ require_once('src/common.php');
 $includeParams['qtip'] = true;
 
 /* meta tags */
-$metaTitle = 'Contact | 20xx Productions';
-$metaDescription = 'Contact page to request quotes, information, or leave a message.';
-$metaKeywords = '20xx Productions, contact, quote';
+$metaTitle = 'Contact';
+$metaDescription = '';
+$metaKeywords = '';
 
 require_once('recaptcha/recaptchalib.php');
 $rcPublicKey = SITE_RECAPTCHA_PUBLIC_KEY;

@@ -58,8 +58,8 @@ else {
 	$blogs = Blog::search($search, $perPage, $pageNum, $totalResults, $sort);
 }
 
-$headers['css'] .= '<style type="text/css">@import url('.CORE_DIR_DEPTH.'plupload/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>';
-$headers['css'] .= '<style type="text/css">
+$includes['css'] .= '<style type="text/css">@import url('.CORE_DIR_DEPTH.'plupload/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>';
+$includes['css'] .= '<style type="text/css">
 	#blogManager {
 		width:100%;
 		border: 1px solid #66c;
@@ -143,14 +143,14 @@ $headers['css'] .= '<style type="text/css">
 	}
 </style>';
 
-$headers['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
-$headers['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/adapters/jquery.js"></script>';
-$headers['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'jquery-ui-timepicker-addon.js"></script>';
-$headers['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'admin.js"></script>';
-$headers['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'plupload/plupload.full.js"></script>';
-$headers['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>';
+$includes['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
+$includes['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/adapters/jquery.js"></script>';
+$includes['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'jquery-ui-timepicker-addon.js"></script>';
+$includes['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'admin.js"></script>';
+$includes['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'plupload/plupload.full.js"></script>';
+$includes['js'] .= '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>';
 
-$headers['js'] .= '<script type="text/javascript">
+$includes['js'] .= '<script type="text/javascript">
 	function initUploader() {
 		$("#uploader").pluploadQueue({
 			runtimes : "gears,flash,silverlight,html5",
@@ -499,6 +499,11 @@ $headers['js'] .= '<script type="text/javascript">
 				}
 			}
 		});
+	}
+	
+	function updateUrl() {
+		$("#txtUrl").val($("#txtTitle").val().split(" ").join("-").toLowerCase());
+
 	}
 	
 	$(document).ready(function() {

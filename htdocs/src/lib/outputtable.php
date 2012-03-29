@@ -26,10 +26,12 @@ abstract class Outputtable {
 	final public function output() {
 		if (!$this->canView()) {
 			throw new Exception('You do not have permission to view this.');
+			return;
 		}
 		
 		if ($this->template == '' || !file_exists(CORE_TEMPLATE_DIR.$this->template)) {
 			throw new Exception('Error loading template.');
+			return;
 		}
 		
 		$params = $this->getOutputParams();
@@ -44,6 +46,7 @@ abstract class Outputtable {
 		
 		if ($template == '' || !file_exists(CORE_TEMPLATE_DIR.$template)) {
 			throw new Exception('Error loading template.');
+			return;
 		}
 		
 		include(CORE_TEMPLATE_DIR.$template);
@@ -69,7 +72,8 @@ abstract class Outputtable {
 		try {
 			$rssObj->save($file);
 		} catch (Exception $e) {
-			SystemMessage::log(MSG_FATAL, 'Error saving RSS feed');
+			SystemMessage::log(MSG_FATAL, 'Error updating RSS feed: '.$e->getMessage());
+			throw new Exception('Error updating RSS feed.');
 			return false;
 		}
 	}
@@ -91,7 +95,7 @@ abstract class Outputtable {
 	final public function updateSitemap() {
 		// core pages
 		$corePages = array(
-			array('group' => 'pages', 'url' => CORE_DOMAIN.'homepage', 'lastmod' => '2012-03-08 12:00:00', 'frequency' => 'yearly', 'priority' => 0.5),
+			array('group' => 'pages', 'url' => CORE_DOMAIN, 'lastmod' => '2012-03-08 12:00:00', 'frequency' => 'yearly', 'priority' => 0.5),
 			array('group' => 'pages', 'url' => CORE_DOMAIN.'blogs', 'lastmod' => '2012-03-08 12:00:00', 'frequency' => 'weekly', 'priority' => 0.9),
 			array('group' => 'pages', 'url' => CORE_DOMAIN.'code_samples', 'lastmod' => '2012-03-08 12:00:00', 'frequency' => 'monthly', 'priority' => 0.5),
 			array('group' => 'pages', 'url' => CORE_DOMAIN.'contact', 'lastmod' => '2012-03-08 12:00:00', 'frequency' => 'never', 'priority' => 0.5),
@@ -114,7 +118,8 @@ abstract class Outputtable {
 			return $smg->update($corePages, $pagePages, $projectPages, $blogPages);
 		} catch (Exception $e) {
 			SystemMessage::log(MSG_ERROR, 'Error updating sitemap: '.$e->getMessage());
-			return false;
+			throw new Exception('Error updatint sitemap.');
+			return;
 		}
 	}
 	

@@ -12,6 +12,10 @@
 <meta name="copyright" content="&copy; <?php echo date('Y'); ?> <?php echo SITE_TITLE; ?>" />
 <meta name="generator" content="TethysCMS <?php echo CORE_VERSION; ?>" />
 
+<?php if (isset($includes['headers'])) {
+echo $includes['headers'];
+} ?>
+
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>reset.css" />
@@ -23,8 +27,8 @@
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>global.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>admin.css" />
 
-<?php if (isset($headers['css'])) {
-echo $headers['css'];
+<?php if (isset($includes['css'])) {
+echo $includes['css'];
 } ?>
 
 </head>

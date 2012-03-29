@@ -34,10 +34,10 @@ class RssFeedItem {
 		$this->comments = $comments;
 		
 		$dt = new DateTime($pubDate, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		$this->pubDate = $dt->format('D, d M Y H:i:s e');
+		$this->pubDate = $dt->format('r');
 		
 		$this->guid = substr(md5($link), 0, 10);
-		$this->author = SITE_AUTHOR;
+		$this->author = CORE_WEBMASTER.' ('.SITE_AUTHOR.')';
 	}
 	
 	public function __get($var) {

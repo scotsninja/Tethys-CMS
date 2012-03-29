@@ -102,7 +102,7 @@ class Mobile_Detect
 	
 	public function isTablet() {
 		if ($this->isMobile()) {
-			$return ($this->isDevice('androidtablet') || $this->isDevice('ipad')) ? true : false;
+			$return = ($this->isDevice('androidtablet') || $this->isDevice('ipad')) ? true : false;
 		} else {
 			$return = false;
 		}

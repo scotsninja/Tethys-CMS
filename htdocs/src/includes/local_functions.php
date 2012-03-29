@@ -323,7 +323,7 @@ function outputCkEditor($name, $value = null,  $toolbar = 'Simple') {
 	
 	$ret = '<textarea class="ckeditor" rows="5" cols="40" id="'.$ckId.'" name="'.$name.'">'.$value.'</textarea>';
 	
-	$GLOBALS['headers']['js'] .= '<script type="text/javascript">
+	$GLOBALS['includes']['js'] .= '<script type="text/javascript">
 		$(document).ready(function() {
 			CKEDITOR.replace(\''.$ckId.'\', {
 				toolbar: \''.$toolbar.'\'
@@ -372,7 +372,7 @@ function outputDisqusCommentCount($url = null) {
 	$url = $GLOBALS['dUrl'];
 
 	$ret = '<a href="'.$url.'#disqus_thread" data-disqus-identifier="'.$identifier.'">Something</a>';
-	$headers['js'] .= '<script type="text/javascript">
+	$GLOBALS['includes']['js'] .= '<script type="text/javascript">
 		var disqus_shortname = "'.$shortname.'";
 
 		(function () {
@@ -414,7 +414,7 @@ function outputDatePicker($name, $value = null, $includeNull = false, $type = 'd
 		$ret .= ' <input type="checkbox" name="'.$name.'Null" value="1" onclick="if($(this).attr(\'checked\')) { $(\'#'.$id.'\').val(\'\'); }" />';
 	}
 	
-	$GLOBALS['headers']['js'] .= '<script type="text/javascript">
+	$GLOBALS['includes']['js'] .= '<script type="text/javascript">
 		$(function() {
 			$("#'.$id.'").datepicker({
 				showButtonPanel: true,

@@ -8,7 +8,7 @@ $metaTitle = 'Page Not Found';
 $metaDescription = 'The requested resource could not be found but may be available again in the future.';
 $metaRobots = 'none';
 
-$headers['css'] = '<style type="text/css">
+$includes['css'] = '<style type="text/css">
 	#leftCol {	
 		font-size:1.2em;
 	}

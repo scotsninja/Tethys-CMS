@@ -11,8 +11,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>jquery.qtip.min.js"></script>
 <script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>global.js"></script>
-<?php if (isset($headers['js'])) {
-echo $headers['js'];
+<?php if (isset($includes['js'])) {
+echo $includes['js'];
 } ?>
 <script type="text/javascript">
 	var bmLevel = <?php echo CORE_BENCHMARK_LEVEL; ?>;

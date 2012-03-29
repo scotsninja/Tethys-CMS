@@ -102,8 +102,8 @@ if ($view == 'details') {
 		}
 	}
 	
-	$headers['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'jquery-ui-timepicker-addon.js"></script>';
-	$headers['js'] .= '<script type="text/javascript">
+	$includes['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.CORE_JS_DIR.'jquery-ui-timepicker-addon.js"></script>';
+	$includes['js'] .= '<script type="text/javascript">
 		$(function() {
 			$("#dtExpires").datetimepicker({
 				showButtonPanel: true,
@@ -141,7 +141,7 @@ if ($view == 'details') {
 	$bArr = Ban::search($search, $perPage, $pageNum, $totalResults, $sort);
 }
 
-$headers['css'] = '<style type="text/css">
+$includes['css'] = '<style type="text/css">
 	.tableForm textarea {
 		width:100%;
 	}

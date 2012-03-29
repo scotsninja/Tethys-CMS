@@ -8,7 +8,7 @@ $metaTitle = 'Server Error';
 $metaDescription = 'Internal server error';
 $metaRobots = 'none';
 
-$headers['css'] = '<style type="text/css">
+$includes['css'] = '<style type="text/css">
 	#leftCol {
 		font-size:1.2em;
 	}

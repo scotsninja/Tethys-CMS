@@ -143,7 +143,7 @@ if ($view == 'details') {
 		}
 	}
 	
-	$headers['css'] = '<style type="text/css">
+	$includes['css'] = '<style type="text/css">
 		#previewWindow {
 			background-color:#ccc;
 			position:absolute;
@@ -168,8 +168,8 @@ if ($view == 'details') {
 		}
 	</style>';
 	
-	$headers['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
-	$headers['js'] .= '<script type="text/javascript">
+	$includes['js'] = '<script type="text/javascript" src="'.CORE_DIR_DEPTH.'ckeditor/ckeditor.js"></script>';
+	$includes['js'] .= '<script type="text/javascript">
 		$(document).ready(function() {
 			$("#previewBtn").show();
 			

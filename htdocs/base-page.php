@@ -11,9 +11,10 @@ if ($page == '') {
 	exit();
 }
 
+// friendly urls for blogs
 if (preg_match('~^blogs(/.*)?~i', $page, $matches)) {
-	$page = 'blog';
-	$_SERVER['QUERY_STRING'] .= '&id='.$matches[1];
+	$page = 'blogs';
+	$_SERVER['QUERY_STRING'] .= '&id='.substr($matches[1], 1);
 }
 
 // friendly urls
@@ -21,7 +22,7 @@ switch ($page) {
 	case 'homepage':
 	case 'index.php':
 		$page = 'index.php';
-		$dPage = 'homepage';
+		$dPage = '';
 	break;
 	case 'blog':
 	case 'blogs':
@@ -42,7 +43,7 @@ $paramStr = str_replace('&&', '&', $_SERVER['QUERY_STRING']);
 parse_str($paramStr, $getParams);
 
 // generate unique identifier for disqus comments
-$dUrl = CORE_DOMAIN.$page;
+$dUrl = CORE_DOMAIN.$dPage;
 $dUrl .= ($getParams['id']) ? '/'.$getParams['id'] : '';
 $dIdentifier = substr(md5($dUrl), 0, 10);
 
@@ -59,7 +60,7 @@ if (file_exists($page)) {
 		$metaTitle = $tempPage['title'];
 		
 		if ($tempPage['css'] != '') {
-			$headers['css'] = '<style type="text/css">'.$tempPage['css'].'</style>';
+			$includes['css'] = '<style type="text/css">'.$tempPage['css'].'</style>';
 		}
 
 		include(CORE_INCLUDE_DIR.'header.php');
@@ -107,7 +108,7 @@ if (file_exists($page)) {
 		$metaAuthor = $pageObj->author;
 		
 		if ($pageObj->css != '') {
-			$headers['css'] = '<style type="text/css">'.$pageObj->css.'</style>';
+			$includes['css'] = '<style type="text/css">'.$pageObj->css.'</style>';
 		}
 
 		include(CORE_INCLUDE_DIR.'header.php');

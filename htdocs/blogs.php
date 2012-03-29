@@ -24,7 +24,7 @@ if ($blog && $postUrl != '') {
 /* meta tags */
 if ($post) {
 	$metaTitle = $blog->name . ' - ' . $post->title;
-	$metaDescription = $blog->description;
+	$metaDescription = $post->getBlurb(100, false);
 	$metaKeywords = $post->tags;
 } else if ($blog) {
 	$metaTitle = $blog->name;
@@ -32,7 +32,9 @@ if ($post) {
 	$metaKeywords = $blog->categories;
 }
 
-$headers['css'] = '<style type="text/css">
+$includes['headers'] = '<link rel="alternate" type="application/rss+xml" title="'.$blog->name.'" href="'.CORE_DOMAIN.CORE_RSS_DIR.$blog->getRssFile().'" />';
+
+$includes['css'] = '<style type="text/css">
 	#blog-header {
 		margin:10px 0px;
 		padding:10px;
@@ -120,6 +122,21 @@ $headers['css'] = '<style type="text/css">
 	.post .date {
 		font-style:italic;
 		font-size:0.9em;
+	}
+	
+	.post ul {
+		margin-left:18px;
+	}
+	
+	.post ul li {
+		margin: 8px 0px;
+	}
+	
+	.post .heading {
+		background-color:#999;
+		font-size:1.1em;
+		font-weight:normal;
+		padding:6px;
 	}
 	
 	#blog-list ul, #blog-archives ul {

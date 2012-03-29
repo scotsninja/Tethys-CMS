@@ -199,7 +199,7 @@ if ($action == 'blog-posts-search') {
 	$ret = '<table class="tableForm">
 		<tr>
 			<td class="tdHeader" width="10%">Title:</td>
-			<td><input type="text" name="txtTitle" id="txtTitle" size="50" value="'. $title .'" /></td>
+			<td><input type="text" name="txtTitle" id="txtTitle" size="50" value="'. $title .'" onblur="updateUrl();" /></td>
 			<td rowspan="5" width="35%">';
 			if ($tempPost) {
 				$ret .= '<img src="'.$tempPost->imagePath.'" alt="" style="width:100%;" />';

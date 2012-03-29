@@ -7,4 +7,5 @@ SystemMessage::output();
 
 ?>
 
+
 <?php include(CORE_INCLUDE_DIR.'footer.php'); ?>

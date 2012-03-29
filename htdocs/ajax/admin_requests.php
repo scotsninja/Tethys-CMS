@@ -217,7 +217,7 @@ if ($ret['error'] == '') {
 if ($ret['success'] == '') {
 	$ret['success'] = '';
 }
-//var_dump($action, $ret);
+
 echo json_encode($ret);
 
 ?>

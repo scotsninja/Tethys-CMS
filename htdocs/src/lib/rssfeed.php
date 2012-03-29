@@ -32,6 +32,7 @@ class RssFeed {
 	private $generator;
 	
 	private $items;						// array of RssFeedItems
+	private $file;
 	
 	/* METHODS */
 	
@@ -44,24 +45,26 @@ class RssFeed {
 		
 		if ($this->obj) {
 			$this->title = $this->obj->name;
-			$this->link = $this->obj->fullUrl;
+			$this->link = CORE_DOMAIN.substr($this->obj->fullUrl, 1);
 			$this->description = $this->obj->description;
-			$this->image = CORE_DOMAIN.$this->obj->imagePath;
+			$this->image = CORE_DOMAIN.substr($this->obj->imagePath,1);
 			$this->category = $this->obj->categories;
+			
+			$this->file = $this->obj->getRssFile();
 		}
 		
 		$this->loadItems();
 		
 		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		$this->lastBuildDate = $dt->format('D, d M Y H:i:s e');
+		$this->lastBuildDate = $dt->format('r');
 		
 		$dt->setTime(0, 0, 0);
-		$this->pubDate = $dt->format('D, d M Y H:i:s e');
+		$this->pubDate = $dt->format('r');
 		
 		$this->ttl = 60;
-		$this->webMaster = CORE_WEBMASTER;
+		$this->webMaster = CORE_WEBMASTER.' ('.SITE_AUTHOR.')';
 		$this->generator = 'TethysCMS '.CORE_VERSION;
-		$this->copyright = 'Copyright '.date('Y').' 20xx Productions';
+		$this->copyright = 'Copyright '.$dt->format('Y').' 20xx Productions';
 		$this->language = 'en-us';
 	}
 	
@@ -100,8 +103,9 @@ class RssFeed {
 	// returns an xml string of the feed
 	private function output() {
 		$ret =  '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-		$ret .=  '<rss version="2.0">'."\n";
+		$ret .=  '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'."\n";
 		$ret .=  '<channel>'."\n";
+		$ret .=  '<atom:link href="'.CORE_DOMAIN.CORE_RSS_DIR.$this->file.'" rel="self" type="application/rss+xml" />'."\n";
 		
 			// title
 			$ret .=  '<title>'.$this->title.'</title>'."\n";
@@ -173,7 +177,7 @@ class RssFeed {
 						<link>'.$item->link.'</link>
 						<description><![CDATA['.$item->description.']]></description>
 						<pubDate>'.$item->pubDate.'</pubDate>
-						<guid>'.$item->guid.'</guid>
+						<guid isPermaLink="false">'.$item->guid.'</guid>
 						<author>'.$item->author.'</author>
 						<comments>'.$item->comments.'</comments>';
 						

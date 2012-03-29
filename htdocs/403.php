@@ -8,7 +8,7 @@ $metaTitle = 'Forbidden';
 $metaDescription = 'The request was a legal request, but the server is refusing to respond to it.';
 $metaRobots = 'none';
 
-$headers['css'] = '<style type="text/css">
+$includes['css'] = '<style type="text/css">
 	#leftCol {
 		font-size:1.2em;
 	}
