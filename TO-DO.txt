@@ -1,0 +1,14 @@
+- error handling class
+- separate ajax outputs into templates
+- rename global.js/css to tethys.js/css
+- rename local_functions.php to tethys.php
+- check for existence of local.js/css/php and auto-include
+- update user profiles
+- update registration process: fb, twitter, email/password
+- caching: store page segments in html files
+- skin editor
+- nav editor
+- better tooltip object
+- select which template a page uses
+- display stats for individual blog posts
+- improve stats display
