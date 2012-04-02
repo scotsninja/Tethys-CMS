@@ -1,0 +1,31 @@
+v 0.9.11
+Date: 2012-03-28
+
+- replaced $headers with $includes
+- added $includes['headers']
+- blog post title is automatically generated from title
+- fixed rss/sitemap validation errors
+- improved error handling for rss/sitemaps
+
+
+v 0.9.8
+Date: 2012-03-19
+
+- added timezone conversion functions
+- default timezone is UTC
+
+
+v 0.9.6
+Date: 2012-03-19
+
+- removed htaccess_live
+- added more icons
+- removed unnecessary ckeditor files
+- moved db files to own folder
+
+
+v 0.9.5
+Date: 2012-03-12
+
+- added files and db files
+- added license
