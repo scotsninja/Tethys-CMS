@@ -733,11 +733,10 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 			<?php for ($i = 0; $i < count($blogs); $i++) {
 				$allPosts = $blogs[$i]->getNumPosts(true);
 				$viewPosts = $blogs[$i]->getNumPosts();
-				$lastDt = new DateTime($blogs[$i]->getLastPostDate());
 				
 				$infoText = '<strong>Categories:</strong> '.$blos[$i]->categories.'<br />';
 				$infoText .= '<strong># Posts:</strong> '.$viewPosts.' ('.($allPosts-$viewPosts).')<br />';
-				$infoText .= '<strong>Last Post:</strong> '.$lastDt->format(DATE_DISPLAY_FORMAT_DATETIME).'<br />';
+				$infoText .= '<strong>Last Post:</strong> '.$GLOBALS['dtObj']->format($blogs[$i]->getLastPostDate()).'<br />';
 				
 				$trClass = ($i%2==0) ? 'oddCell' : 'evenCell'; ?>
 				<tr class="<?php echo $trClass; ?>">

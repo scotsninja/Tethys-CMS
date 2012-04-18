@@ -3,7 +3,8 @@
 
 require_once('src/common.php');
 
-$metaRobots = 'none';
+$includes['meta']['robots'] = 'none';
+$includes['meta']['js-store'] = false;
 
 if ($_SERVER['HTTP_REFERER'] != '') {
 	if (preg_match('~^'.CORE_DOMAIN.'~', $_SERVER['HTTP_REFERER'])) {

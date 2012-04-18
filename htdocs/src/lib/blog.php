@@ -279,8 +279,6 @@ class Blog extends Outputtable implements iTethysBase {
 		// insert blog info into db
 		$query = "INSERT INTO `blogs` (`blogName`, `blogType`, `blogCategories`, `blogDescription`, `blogUrl`, `blogActive`, `blogDefault`, `blogDateAdded`) VALUES (:name, :type, :categories, :description, :url, :active, :default, :date)";
 		
-		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		
 		$params = array(
 			'name' => $name,
 			'type' => $type,
@@ -289,7 +287,7 @@ class Blog extends Outputtable implements iTethysBase {
 			'url' => $url,
 			'active' => $active,
 			'default' => $default,
-			'date' => $dt->format(DATE_SQL_FORMAT)
+			'date' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT)
 		);
 
 		try {
@@ -734,8 +732,7 @@ class Blog extends Outputtable implements iTethysBase {
 		$exif = exif_read_data(CORE_DIR_DEPTH.'uploads/'.$file);
 		
 		if ($exif) {
-			$tempDt = new DateTime($exif['DateTimeOriginal'], new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-			$datePosted = $tempDt->format(DATE_SQL_FORMAT);
+			$datePosted = $GLOBALS['dtObj']->format($exif['DateTimeOriginal'], DATE_SQL_FORMAT);
 		}
 		
 		try {

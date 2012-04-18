@@ -4,8 +4,8 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Login';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Login';
+$includes['meta']['robots'] = 'none';
 
 if ($_SERVER['HTTP_REFERER'] != '') {
 	if (preg_match('~^'.CORE_DOMAIN.'~', $_SERVER['HTTP_REFERER'])) {

@@ -2,14 +2,14 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-<title><?php echo ($metaTitle != '') ? $metaTitle : SITE_TITLE; ?></title>
+<title><?php echo ($includes['meta']['title'] != '') ? $includes['meta']['title'] : SITE_TITLE; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="<?php echo ($metaDescription != '') ? $metaDescription : SITE_DESCRIPTION; ?>" />
-<meta name="keywords" content="<?php echo ($metaKeywords != '') ? $metaKeywords : SITE_KEYWORDS; ?>" />
-<meta name="author" content="<?php echo ($metaAuthor != '') ? $metaAuthor : SITE_AUTHOR; ?>" />
-<meta name="robots" content="<?php echo ($metaRobots != '') ? $metaRobots : 'all'; ?>" />
+<meta name="description" content="<?php echo ($includes['meta']['description'] != '') ? $includes['meta']['description'] : SITE_DESCRIPTION; ?>" />
+<meta name="keywords" content="<?php echo ($includes['meta']['keywords'] != '') ? $includes['meta']['keywords'] : SITE_KEYWORDS; ?>" />
+<meta name="author" content="<?php echo ($includes['meta']['author'] != '') ? $includes['meta']['author'] : SITE_AUTHOR; ?>" />
+<meta name="robots" content="<?php echo ($includes['meta']['robots'] != '') ? $includes['meta']['robots'] : 'all'; ?>" />
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<meta name="copyright" content="&copy; <?php echo date('Y'); ?> <?php echo SITE_TITLE; ?>" />
+<meta name="copyright" content="<?php echo date('Y'); ?> <?php echo SITE_TITLE; ?>" />
 <meta name="generator" content="TethysCMS <?php echo CORE_VERSION; ?>" />
 
 <?php if (isset($includes['headers'])) {
@@ -21,11 +21,20 @@ echo $includes['headers'];
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>reset.css" />
 <!-- 1140px Grid styles for IE -->
 <!--[if lte IE 9]><link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>/ie.css" type="text/css" media="screen" /><![endif]-->
-<!-- The 1140px Grid - http://cssgrid.net/ -->
-<link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>jquery-themes/overcast/jquery-ui-1.8.17.custom.css">
-<link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>jquery.qtip.min.css" />
-<link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>global.css" />
-<link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>admin.css" />
+<?php /* Minify/Compress CSS Files */
+$cssFiles = array();
+$cssFiles[] = 'jquery-themes/overcast/jquery-ui-1.8.17.custom.css';
+$cssFiles[] = 'jquery.qtip.min.css';
+$cssFiles[] = '1140.css';
+$cssFiles[] = 'tethys.css';
+$cssFiles[] = 'admin.css';
+
+if (file_exists(CORE_DIR_DEPTH.CORE_CSS_DIR.'local.css')) {
+	$cssFiles[] = 'local.css';
+}
+?>
+
+<link rel="stylesheet" type="text/css" media="all" href="/min/?b=<?php echo substr(CORE_CSS_DIR, 0, strlen(CORE_CSS_DIR)-1); ?>&amp;f=<?php echo implode(',', $cssFiles); ?>" />
 
 <?php if (isset($includes['css'])) {
 echo $includes['css'];

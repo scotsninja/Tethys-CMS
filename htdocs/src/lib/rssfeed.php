@@ -225,7 +225,7 @@ class RssFeed {
 		
 		foreach ($posts as $p) {
 			$url = CORE_DOMAIN.substr($p->fullUrl,1);
-			$this->items[] = new RssFeedItem($p->title, $url, $p->getBlurb(500, false), $p->tags, null, $p->datePosted);
+			$this->items[] = new RssFeedItem($p->title, $url, $p->getBlurb(500, false), $p->tags, $url, $p->datePosted);
 		}
 	}
 }

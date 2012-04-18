@@ -4,9 +4,10 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Retrieve Password';
-$metaDescription = 'Retrieve a lost password by resetting it.';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Retrieve Password';
+$includes['meta']['description'] = 'Retrieve a lost password by resetting it.';
+$includes['meta']['robots'] = 'none';
+$includes['meta']['js-store'] = false;
 
 if (User::isLoggedIn()) {
 	header('Location: index.php');

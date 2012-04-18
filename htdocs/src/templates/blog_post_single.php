@@ -16,12 +16,12 @@ $blogs = Blog::search();
 <div class="eightcol" style="margin-right:3%;">
 	<div class="box">
 		<div class="post">
-		<?php if (new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE)) < new DateTime($postDate)) { ?>
+		<?php if ($GLOBALS['dtObj']->comp('now', $postDate) < 0) { ?>
 			<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><?php echo $postTitle; ?> (Not Active)</h4>
 		<?php } else { ?>
 			<h4><?php echo $postTitle; ?></h4>
 		<?php } ?>
-			<div class="date">Posted on <?php $dt = new DateTime($postDate, new DateTimeZone(DATE_DEFAULT_TIMEZONE)); echo $dt->format(DATE_DISPLAY_FORMAT_DATETIME); ?></div>
+			<div class="date">Posted on <?php echo $GLOBALS['dtObj']->format($postDate); ?></div>
 			<div class="excerpt"><?php echo $postValue; ?></div>
 		<?php if ($postTags != '') { ?>
 			<div class="tags">
@@ -33,7 +33,7 @@ $blogs = Blog::search();
 			<?php } ?>
 			</div>
 		<?php } ?>
-			<div><?php echo outputSharingLinks(); ?></div>
+			<div><?php echo outputSharingLinks(array('share','facebook','twitter','google','digg','reddit','email')); ?></div>
 		</div>
 	</div>
 	<?php if ($postComments == 'open') { ?>
@@ -48,7 +48,7 @@ $blogs = Blog::search();
 			<div class="heading">Blogs</div>
 			<ul>
 			<?php foreach ($blogs as $b) { ?>
-				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo $b->description; ?></li>
 			<?php } ?>
 			</ul>
 		</div>

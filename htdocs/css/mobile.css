@@ -1,1 +1,13 @@
-.mobileHide{display:none;}footer{position:inherit;}
+.mobileHide {
+	display:none;
+}
+
+footer {
+	position:inherit !important;
+	margin-top:6px;
+}
+
+header .row .twelvecol {
+	float:none !important;
+	text-align:center;
+}

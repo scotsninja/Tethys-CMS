@@ -29,10 +29,6 @@ switch ($page) {
 		$page = 'blogs.php';
 		$dPage = 'blogs';
 	break;
-	case 'contact':
-		$page = 'contact.php';
-		$dPage = 'contact';
-	break;
 	default:
 		$dPage = $page;
 	break;
@@ -45,7 +41,7 @@ parse_str($paramStr, $getParams);
 // generate unique identifier for disqus comments
 $dUrl = CORE_DOMAIN.$dPage;
 $dUrl .= ($getParams['id']) ? '/'.$getParams['id'] : '';
-$dIdentifier = substr(md5($dUrl), 0, 10);
+$dIdentifier = getDisqusIdentifier($dUrl);
 
 // if page file exists, include file
 if (file_exists($page)) {
@@ -57,7 +53,7 @@ if (file_exists($page)) {
 
 	if ($tempPage) {
 		/* meta tags */
-		$metaTitle = $tempPage['title'];
+		$includes['meta']['title'] = $tempPage['title'];
 		
 		if ($tempPage['css'] != '') {
 			$includes['css'] = '<style type="text/css">'.$tempPage['css'].'</style>';
@@ -102,10 +98,10 @@ if (file_exists($page)) {
 		}
 		
 		/* meta tags */
-		$metaTitle = $pageObj->title;
-		$metaDescription = $pageObj->description;
-		$metaKeywords = $pageObj->keywords;
-		$metaAuthor = $pageObj->author;
+		$includes['meta']['title'] = $pageObj->title;
+		$includes['meta']['description'] = $pageObj->description;
+		$includes['meta']['keywords'] = $pageObj->keywords;
+		$includes['meta']['author'] = $pageObj->author;
 		
 		if ($pageObj->css != '') {
 			$includes['css'] = '<style type="text/css">'.$pageObj->css.'</style>';

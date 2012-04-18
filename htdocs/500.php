@@ -4,9 +4,10 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Server Error';
-$metaDescription = 'Internal server error';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Server Error';
+$includes['meta']['description'] = 'Internal server error';
+$includes['meta']['robots'] = 'none';
+$includes['meta']['js-store'] = false;
 
 $includes['css'] = '<style type="text/css">
 	#leftCol {

@@ -16,6 +16,8 @@ class Benchmark {
 	
 	private $benchmarkLevel;			// 0 - none, 1 - basic (script ends), 2 - verbose (page loads; requires ajax call)
 	private $startTime;					// stores the start time of script execution
+	private $endTime;					// stores the end time calculated at last call to Benchmark::log()
+	private $execTime;					// stores the time difference (end - start) calculated at last call to Benchmark::log()
 	private $pageId;					// unqiue hash used to group times from the same script execution/page view
 	private $page;						// the page being viewed
 	private $vars;						// any GET parameters in the url
@@ -44,9 +46,12 @@ class Benchmark {
 		$scriptEnd = ($scriptEnd) ? 1 : 0;
 		$endTime = microtime(true);
 		$execTime = ($endTime - $this->startTime);
+		
+		$this->endTime = $endTime;
+		$this->execTime = $execTime;
 
 		$query = "INSERT INTO `benchmarking` (`bmPageId`, `bmPage`, `bmAction`, `bmExecTime`, `bmNotes`, `bmVars`, `bmScriptEnd`, `bmDate`, `bmTimeStart`, `bmTimeEnd`) VALUES (:pageId, :page, :action, :time, :notes, :vars, :scriptEnd, :date, :start, :end)";
-		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+
 		$params = array(
 			'pageId' => $this->pageId,
 			'page' => $this->page,
@@ -57,7 +62,7 @@ class Benchmark {
 			'scriptEnd' => $scriptEnd,
 			'start' => $this->startTime,
 			'end' => $endTime,
-			'date' => $dt->format(DATE_SQL_FORMAT)
+			'date' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT)
 		);
 		
 		try {

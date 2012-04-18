@@ -4,8 +4,8 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Register';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Register';
+$includes['meta']['robots'] = 'none';
 
 
 if (User::isLoggedIn()) {

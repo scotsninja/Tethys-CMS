@@ -263,8 +263,8 @@ function outputAjaxPagingLinks($func, $pageNum, $perPage, $totalResults = 0, $pa
 	return $ret;
 }
 
-// @todo
-function outputSteppedPagingLinks($url, $pageNum, $perPage, $totalResults = 0, $pageVar = 'page', $perPageVar = 'perpage') {
+// @todo - displaySteps
+function outputSteppedPagingLinks($url, $pageNum, $perPage, $totalResults = 0, $displaySteps = 0, $pageVar = 'page', $perPageVar = 'perpage', $onClick = null) {
 	if ($url == '') {
 		return null;
 	}
@@ -283,16 +283,18 @@ function outputSteppedPagingLinks($url, $pageNum, $perPage, $totalResults = 0, $
 	
 	$ret = '';
 	
-	if ($pageNum > 1) {
-		$ret .= '<a class="pagination button button-blue" href="'.$url.'&'.$perPageVar.'='.$perPage.'&'.$pageVar.'=1"><< First</a>&nbsp;';
-		$ret .= '<a class="pagination button button-blue" href="'.$url.'&'.$perPageVar.'='.$perPage.'&'.$pageVar.'='.($pageNum-1).'">< Previous</a>&nbsp;';
-	}
-	
-	$ret .= '&nbsp;&nbsp;Page '.$pageNum.' of '.$lastPage.'&nbsp;&nbsp;';
-	
-	if ($pageNum < $lastPage) {
-		$ret .= '<a class="pagination button button-blue" href="'.$url.'&'.$perPageVar.'='.$perPage.'&'.$pageVar.'='.($pageNum+1).'">Next ></a>&nbsp;';
-		$ret .= '<a class="pagination button button-blue" href="'.$url.'&'.$perPageVar.'='.$perPage.'&'.$pageVar.'='.$lastPage.'">Last >></a>&nbsp;';
+	for($i = 1; $i<=$lastPage;$i++) {
+		$pUrl = ($url == '#') ? $url : $url.'&'.$perPageVar.'='.$perPage.'&'.$pageVar.'='.$i;
+		$classes = array('pagination');
+		if ($i == $pageNum) {
+			$classes[] = 'pagination-current';
+		}
+		
+		if ($onClick != '') {
+			$pOnClick = ' onclick="'.str_replace(array('#page', '#pageVar', '#perPageVar'), array($i, $pageVar, $perPage, $perPageVar), $onClick).'"';
+		}
+		
+		$ret .= '<a href="'.$pUrl.'" class="'.implode(' ', $classes).'"'.$pOnClick.'>'.$i.'</a>';
 	}
 	
 	return $ret;
@@ -360,18 +362,25 @@ function outputDisqus() {
 	return $ret;
 }
 
-// @todo
-function outputDisqusCommentCount($url = null) {
+function getDisqusIdentifier($url) {
 	if ($url == '') {
 		return null;
 	}
-	
-	$shortname = DISQUS_SHORTNAME;
-	$developerMode = (CORE_DEVELOPMENT) ? 1 : 0;
-	$identifier = $GLOBALS['dIdentifier'];
-	$url = $GLOBALS['dUrl'];
 
-	$ret = '<a href="'.$url.'#disqus_thread" data-disqus-identifier="'.$identifier.'">Something</a>';
+	return substr(md5($url), 0, 10);
+}
+
+function outputDisqusCommentCount($url = null) {
+	if ($url == '') {	
+		return null;
+	}
+	
+	return '<a href="'. $url .'#disqus_thread" data-disqus-identifier="'.getDisqusIdentifier($url).'"></a>';
+}
+
+function outputDisqusCommentCountScript() {
+	$shortname = DISQUS_SHORTNAME;
+
 	$GLOBALS['includes']['js'] .= '<script type="text/javascript">
 		var disqus_shortname = "'.$shortname.'";
 
@@ -382,20 +391,50 @@ function outputDisqusCommentCount($url = null) {
 			(document.getElementsByTagName("HEAD")[0] || document.getElementsByTagName("BODY")[0]).appendChild(s);
 		}());
 	</script>';
-
-	return $ret;
 }
 
-function outputSharingLinks() {
-	$ret .= '<span class="st_sharethis_hcount" displayText="ShareThis"></span>
-	<span class="st_facebook_hcount" displayText="Facebook"></span>
-	<span class="st_twitter_hcount" displayText="Tweet"></span>
-	<span class="st_digg_hcount" displayText="Digg"></span>
-	<span class="st_reddit_hcount" displayText="Reddit"></span>
-	<span class="st_email_hcount" displayText="Email"></span>
-	<script type="text/javascript">var switchTo5x=true;</script>
+function outputSharingLinks($include = null) {
+	if ($include == '') {
+		$include = array('twitter', 'google', 'facebook');
+	}
+	
+	$ret = '';
+	
+	foreach ($include as $i) {	
+		switch($i) {
+			case 'share':
+				$ret .= '<span class="st_sharethis_hcount" displayText="ShareThis"></span>';
+			break;
+			case 'facebook':
+				$ret .= '<span class="st_fblike_hcount" displayText="Facebook Like"></span>';
+			break;
+			case 'twitter':
+				$ret .= '<span class="st_twitter_hcount" displayText="Tweet"></span>';
+			break;
+			case 'google':
+				$ret .= '<span class="st_plusone_hcount" displayText="Google +1"></span>';
+			break;
+			case 'reddit':
+				$ret .= '<span class="st_reddit_hcount" displayText="Reddit"></span>';
+			break;
+			case 'pinterest':
+				$ret .= '<span class="st_pinterest_hcount" displayText="Pinterest"></span>';
+			break;
+			case 'linkedin':
+				$ret .= '<span class="st_linkedin_hcount" displayText="LinkedIn"></span>';
+			break;
+			case 'digg':
+				$ret .= '<span class="st_digg_hcount" displayText="Digg"></span>';
+			break;
+			case 'email':
+				$ret .= '<span class="st_email_hcount" displayText="Email"></span>';
+			break;
+		}
+	}
+	
+	$ret .= '<script type="text/javascript">var switchTo5x=true;</script>
 	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-	<script type="text/javascript">stLight.options({publisher: "ur-3dd31a8b-bdc3-228e-9e6c-3aed3bbe7c8"}); </script>';
+	<script type="text/javascript">stLight.options({publisher: "ur-dacf1bd-da6b-dafd-cef9-4224acc07039"}); </script>';
 	
 	return $ret;
 }
@@ -590,14 +629,13 @@ function recordPageView() {
 	
 	$query = "INSERT INTO `page_views` (`pvUserId`, `pvIPAddress`, `pvPage`, `pvReferringPage`, `pvClient`, `pvDate`) VALUES (:userId, :ip, :page, :referringPage, :client, :date)";
 	
-	$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 	$params = array(
 		'userId' => $userId,
 		'ip' => $_SERVER['REMOTE_ADDR'],
 		'page' => $_GET['url'],
 		'referringPage' => $_SERVER['HTTP_REFERER'],
 		'client' => $_SERVER['HTTP_USER_AGENT'],
-		'date' => $dt->format(DATE_SQL_FORMAT)
+		'date' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT)
 	);
 	
 	return $GLOBALS['dbObj']->insert($query, $params);

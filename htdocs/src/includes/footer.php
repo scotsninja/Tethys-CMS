@@ -12,12 +12,23 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<?php if ($includeParams['jquery-ui']) { ?>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-	<?php } ?>
-	<?php if ($includeParams['qtip']) { ?>
-	<script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>jquery.qtip.min.js"></script>
-	<?php } ?>
-<?php } ?>
-<script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>global.js"></script>
+	<?php }
+}
+/* Minify/Compress JS files */
+$jsFiles = array();
+
+if ($includeParams['qtip']) {
+	$jsFiles[] = 'jquery.qtip.min.js';
+}
+
+$jsFiles[] = 'tethys.js';
+
+if (file_exists(CORE_DIR_DEPTH.CORE_JS_DIR.'local.js')) {
+	$jsFiles[] = 'local.js';
+}
+?>
+<script type="text/javascript" src="/min/?b=<?php echo substr(CORE_JS_DIR, 0, strlen(CORE_JS_DIR)-1); ?>&amp;f=<?php echo implode(',',$jsFiles); ?>"></script>
+
 <?php if (isset($includes['js'])) {
 echo $includes['js'];
 } ?>
@@ -28,12 +39,16 @@ echo $includes['js'];
 	var bmPage = '<?php echo $GLOBALS['bmObj']->page; ?>';
 	var bmVars = '<?php echo $GLOBALS['bmObj']->vars; ?>';
 	var gTooltips = <?php echo ($includeParams['qtip']) ? 'true' : 'false'; ?>;
+	var storePage = <?php echo ($includes['meta']['js-store'] === false) ? 'false' : 'true'; ?>;
 <?php if ($includeParams['jquery'] || $includeParams['jquery-ui'] || $includeParams['qtip']) { ?>
 	$(document).ready(function() {
 		init();
 	});
+<?php } else { ?>
+	window.onload = init;
 <?php } ?>
 </script>
+<!-- place analytics code here -->
 </body>
 </html>
 <?php recordPageView(); ?>

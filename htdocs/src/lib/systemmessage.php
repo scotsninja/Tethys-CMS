@@ -39,14 +39,13 @@ class SystemMessage {
 			if ($GLOBALS['dbObj']) {
 				$query = "INSERT INTO `message_log` (`mlType`, `mlValue`, `mlVars`, `mlSession`, `mlBacktrace`,  `mlDate`) VALUES (:type, :message, :vars, :session, :bt, :date)";
 				
-				$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 				$params = array(
 					'type' => $type,
 					'message' => $message,
 					'vars' => print_r($vars, true),
 					'session' => print_r($_SESSION, true),
 					'bt' => print_r(debug_backtrace(), true),
-					'date' => $dt->format(DATE_SQL_FORMAT)
+					'date' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT)
 				);
 				
 				$GLOBALS['dbObj']->insert($query, $params);
@@ -70,8 +69,7 @@ class SystemMessage {
 
 			if ($fh) {
 				// date/type/message
-				$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-				$line = $dt->format(DATE_SQL_FORMAT) . "|" . $type . "|" . $message."\n";
+				$line = $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT) . "|" . $type . "|" . $message."\n";
 				
 				fwrite($fh, $line);
 				

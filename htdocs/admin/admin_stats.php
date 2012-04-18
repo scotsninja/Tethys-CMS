@@ -53,8 +53,7 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 			<td><?php echo $p['description']; ?></td>
 			<td><?php echo $p['views']; ?></td>
 			<td nowrap="nowrap"><?php if ($p['lastViewed']) {
-				$dt = new DateTime($p['lastViewed']);
-				echo $dt->format(DATE_DISPLAY_FORMAT_DATETIME);
+				echo $GLOBALS['dtObj']->format($p['lastViwed']);
 			} else {
 				echo '&nbsp;';
 			} ?></td>

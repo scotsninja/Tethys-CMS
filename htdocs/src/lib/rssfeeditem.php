@@ -32,9 +32,7 @@ class RssFeedItem {
 		$this->description = $description;
 		$this->category = $cateogyr;
 		$this->comments = $comments;
-		
-		$dt = new DateTime($pubDate, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		$this->pubDate = $dt->format('r');
+		$this->pubDate = $GLOBALS['dtObj']->format($pubDate, 'r');
 		
 		$this->guid = substr(md5($link), 0, 10);
 		$this->author = CORE_WEBMASTER.' ('.SITE_AUTHOR.')';

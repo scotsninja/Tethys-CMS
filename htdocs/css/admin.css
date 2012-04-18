@@ -1,1 +1,33 @@
-#admin-nav {position:fixed;background-color:#aaa;border:2px solid #444;padding:10px;}#admin-nav ul{list-style:none;}#admin-nav ul li{padding:2px;}#admin-nav li.selected{background-color:#999;font-weight:bold;}#admin-nav li:hover{background-color:#ccc;font-weight:bold;}#admin-nav li a, #admin-nav li a:visited{text-decoration:none;color:#555;}.ui-timepicker-div .ui-widget-header {margin-bottom:8px;}.ui-timepicker-div dl{text-align:left;}.ui-timepicker-div dl dt{height:25px; margin-bottom:-25px;}.ui-timepicker-div dl dd{margin: 0 10px 10px 65px;}.ui-timepicker-div td{font-size:90%;}.ui-tpicker-grid-label{background:none;border:none;margin: 0;padding: 0;}
+#admin-nav {
+	position:fixed;
+	background-color:#aaa;
+	border:2px solid #444;
+	padding:10px;
+}
+#admin-nav ul {
+	list-style:none;
+}
+#admin-nav ul li {
+	padding:2px;
+}
+
+#admin-nav li.selected {
+	background-color:#999;
+	font-weight:bold;
+}
+#admin-nav li:hover {
+	background-color:#ccc;
+	font-weight:bold;
+}
+#admin-nav li a, #admin-nav li a:visited {
+	text-decoration:none;
+	color:#555;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }

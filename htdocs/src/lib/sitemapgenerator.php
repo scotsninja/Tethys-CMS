@@ -135,14 +135,12 @@ class SitemapGenerator {
 				if ($d['url'] != '') {
 					$url = $this->map->createElement('url');
 
-					if ($d['lastmod'] != '') {
-						$dt = (!($d['lastmod'] instanceof DateTime)) ? new DateTime($d['lastmod'], new DateTimeZone(DATE_DEFAULT_TIMEZONE)) : $d['lastmod'];
-					} else {
-						$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+					if ($d['lastmod'] = '') {
+						$d['lastmod'] = 'now';
 					}
 					
 					$locVal = str_replace(array('&', '<', '>', '"', "'"), array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'), $d['url']);
-					$lastmodVal = $dt->format('c');
+					$lastmodVal = $GLOBALS['dtObj']->format($d['lastmod'], 'c');
 					$frequencyVal = (SitemapGenerator::isValidFrequency($d['frequency'])) ? $d['frequency'] : 'monthly';
 					$priorityVal = ($d['priority'] < 0.1 || $d['priority'] > 1) ? 0.5 : $d['priority'];
 					
@@ -237,7 +235,6 @@ class SitemapGenerator {
 		return ($ret > 0);
 	}
 	
-	// @todo: validate
 	// write xml sitemap based off Sitemap Protocol 0.9
 	private function writeXML() {
 		$this->map->appendChild($this->mapSet);
@@ -268,10 +265,6 @@ class SitemapGenerator {
 		}
 		
 		return @unlink($this->file);
-	}
-	
-	// @todo
-	public function validate() {
 	}
 	
 	// returns true if the passed value is a valid frequency value for xml sitemaps

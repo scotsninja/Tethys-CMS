@@ -16,8 +16,6 @@ ob_start('ob_gzhandler');
 // LOAD LIB CLASSES
 spl_autoload_register();
 
-date_default_timezone_set('US/Central');
-
 // CONNECT TO DB
 $execDir = explode('/', $_SERVER['PHP_SELF']);
 $dirDepth = '';
@@ -53,10 +51,17 @@ try {
 // INITIALIZE BENCHMARKING
 $bmObj = new Benchmark(CORE_BENCHMARK_LEVEL, $btStart);
 
+// INITIALIZE DATE OBJECT
+$dtObj = new dtWrapper(DATE_DISPLAY_FORMAT_DATETIME, DATE_DEFAULT_TIMEZONE);
+date_default_timezone_set(DATE_DEFAULT_TIMEZONE);
+
 // INITIALIZE SESSION
 session_start();
 
-include_once($dirDepth.'src/includes/local_functions.php');
+include_once($dirDepth.'src/includes/tethys_functions.php');
+if (file_exists($dirDepth.'src/includes/local_functions.php')) {
+	include_once($dirDepth.'src/includes/local_functions.php');
+}
 
 // check if user is logged in
 $userObj = User::loadBySession();

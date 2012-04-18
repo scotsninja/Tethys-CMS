@@ -235,9 +235,7 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 				</tr>
 			<?php $totB = count($bArr);
 			for ($i = 0; $i < $totB; $i++) {
-				$dateBanned = new DateTime($bArr[$i]->dateBanned);
 				$dateExpires = ($bArr[$i]->dateExpires != '' && $bArr[$i]->dateExpires != '0000-00-00 00:00:00') ? $bArr[$i]->dateExpires : '2099-12-31';
-				$dateExpires = new DateTime($dateExpires);
 				
 				if ($view == 'users') {
 					$tempUser = User::getById($bArr[$i]->value);
@@ -249,8 +247,8 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 				<tr>
 					<td nowrap="nowrap" class="tdCenter"><a href="admin_banned.php?v=details&t=edit&id=<?php echo $bArr[$i]->id; ?>"><img class="tdIcon" src="/img/icons/config.png" alt="Edit" /></a></td>
 					<td nowrap="nowrap"><?php echo $label; ?></td>
-					<td nowrap="nowrap"><?php echo $dateBanned->format(DATE_DISPLAY_FORMAT_DATE); ?></td>
-					<td nowrap="nowrap"><?php echo $dateExpires->format(DATE_DISPLAY_FORMAT_DATETIME); ?></td>
+					<td nowrap="nowrap"><?php echo $GLOBALS['dtObj']->format($bArr[$i]->dateBanned, DATE_DISPLAY_FORMAT_DATE); ?></td>
+					<td nowrap="nowrap"><?php echo $GLOBALS['dtObj']->format($dateExpires, DATE_DISPLAY_FORMAT_DATE); ?></td>
 					<td nowrap="nowrap" class="tdCenter"><a href="admin_banned.php?v=<?php echo $view; ?>&t=delete&id=<?php echo $bArr[$i]->id; ?>" onclick="return confirm('This will remove the ban on the <?php echo strtolower($term); ?>.  Are you sure you wish to continue?');"><img class="tdIcon" src="/img/icons/cancel.png" alt="Delete" /></a></td>
 				</tr>
 			<?php } ?>

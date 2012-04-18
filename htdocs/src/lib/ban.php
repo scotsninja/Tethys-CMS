@@ -195,15 +195,12 @@ class Ban implements iTethysBase {
 		}
 		
 		// build the query and pass to the db
-		// build the query and pass to the db
-		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		
 		$params = array(
 			'type' => $type,
 			'value' => $value,
 			'adminId' => $GLOBALS['userObj']->id,
 			'notes' => $notes,
-			'banned' => $dt->format(DATE_SQL_FORMAT),
+			'banned' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT),
 			'expires' => $expires
 		);
 		

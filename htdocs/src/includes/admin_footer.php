@@ -9,8 +9,18 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>jquery.qtip.min.js"></script>
-<script type="text/javascript" src="/<?php echo CORE_JS_DIR; ?>global.js"></script>
+<?php
+/* Minify/Compress JS files */
+$jsFiles = array();
+
+$jsFiles[] = 'jquery.qtip.min.js';
+$jsFiles[] = 'tethys.js';
+
+if (file_exists(CORE_DIR_DEPTH.CORE_JS_DIR.'local.js')) {
+	$jsFiles[] = 'local.js';
+}
+?>
+<script type="text/javascript" src="/min/?b=<?php echo substr(CORE_JS_DIR, 0, strlen(CORE_JS_DIR)-1); ?>&amp;f=<?php echo implode(',',$jsFiles); ?>"></script>
 <?php if (isset($includes['js'])) {
 echo $includes['js'];
 } ?>

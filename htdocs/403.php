@@ -4,9 +4,10 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Forbidden';
-$metaDescription = 'The request was a legal request, but the server is refusing to respond to it.';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Forbidden';
+$includes['meta']['description'] = 'The request was a legal request, but the server is refusing to respond to it.';
+$includes['meta']['robots'] = 'none';
+$includes['meta']['js-store'] = false;
 
 $includes['css'] = '<style type="text/css">
 	#leftCol {

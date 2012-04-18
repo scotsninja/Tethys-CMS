@@ -103,13 +103,15 @@ class BlogPost extends Outputtable implements iTethysBase {
 		if (User::isAdmin()) {
 			// check for future search-parameter
 			if (is_array($params)) {
-				if (!(isset($params['future']) && $params['future'])) {
-					$where[] = "`bpDatePosted`<=NOW()";
+				if (isset($params['future']) && !$params['future']) {
+					$whereParams['hours'] = 2;
+					$where[] = "`bpDatePosted`<=DATE_ADD(NOW(), INTERVAL :hours HOUR)";
 				}
 			}
 		} // else, only return active comments
 		else {
-			$where[] = "`bpDatePosted`<=NOW()";
+			$whereParams['hours'] = 2;
+			$where[] = "`bpDatePosted`<=DATE_ADD(NOW(), INTERVAL :hours HOUR)";
 		}
 		
 		// build the where clause
@@ -188,7 +190,7 @@ class BlogPost extends Outputtable implements iTethysBase {
 				$ret = ($this->value != '') ? $this->value : $this->getValue();
 			break;
 			case 'blurb':
-				$ret = $this->getBlurb(200);
+				$ret = $this->getBlurb(500);
 			break;
 			case 'fullUrl':
 				$ret = $this->getFullUrl();
@@ -280,20 +282,13 @@ class BlogPost extends Outputtable implements iTethysBase {
 			return false;
 		}
 		
-		if ($excerpt == '') {
-			$excerpt = substr(strip_tags($value), 0, 200);
-		}
-		
-		if ($datePosted != '') {
-			$datePosted = new DateTime($datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		} else {
-			$datePosted = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		if ($datePosted == '') {
+			$datePosted = 'now';
 		}
 		
 		// insert blog info into db
 		$query = "INSERT INTO `blog_posts` (`bpBlogId`, `bpTitle`, `bpExcerpt`, `bpUrl`, `bpValue`, `bpComments`, `bpDatePosted`, `bpDateCreated`) VALUES (:blog, :title, :excerpt, :url, :value, :comments, :dtPost, :dtAdd)";
 		
-		$dt = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
 		$params = array(
 			'blog' => $blog,
 			'title' => $title,
@@ -301,8 +296,8 @@ class BlogPost extends Outputtable implements iTethysBase {
 			'url' => $url,
 			'value' => $value,
 			'comments' => $comments,
-			'dtPost' => $datePosted->format(DATE_SQL_FORMAT),
-			'dtAdd' => $dt->format(DATE_SQL_FORMAT)
+			'dtPost' => $GLOBALS['dtObj']->format($datePosted, DATE_SQL_FORMAT),
+			'dtAdd' => $GLOBALS['dtObj']->format('now', DATE_SQL_FORMAT)
 		);
 		
 		try {
@@ -531,15 +526,13 @@ class BlogPost extends Outputtable implements iTethysBase {
 			return false;
 		}
 		
-		if ($val != '') {
-			$val = new DateTime($val, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		} else {
-			$val = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
+		if ($val = '') {
+			$val = 'now';
 		}
 		
 		$query = "UPDATE `blog_posts` SET `bpDatePosted`=:val WHERE `bpId`=:id";
 		$params = array('id' => $this->id,
-			'val' => $val->format(DATE_SQL_FORMAT)
+			'val' => $GLOBALS['dtObj']->format($val, DATE_SQL_FORMAT)
 		);
 		
 		try {
@@ -562,10 +555,7 @@ class BlogPost extends Outputtable implements iTethysBase {
 	}
 	
 	public function canView() {
-		$dtNow = new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-		$dtPost = new DateTime($this->datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE));
-
-		return ($dtNow < $dtPost) ? User::isAdmin() : true;
+		return ($GLOBALS['dtObj']->comp('now', $this->datePosted) < 0) ? User::isAdmin() : true;
 	}
 	
 	/* OUTPUT */
@@ -769,16 +759,16 @@ class BlogPost extends Outputtable implements iTethysBase {
 			$limit = 500;
 		}
 		
-		$val = strip_tags($this->getValue());
+		$val = ($this->excerpt != '') ? $this->excerpt : strip_tags($this->getValue());
 		
 		$ret =  substr($val, 0, $limit);
 		
 		if (strlen($val) > strlen($ret)) {
 			$ret .= '...';
-			
-			if ($includeReadMore) {
-				$ret .= ' <a href="'.$this->fullUrl.'" class="readMore">[Read More]</a>';
-			}
+		}
+
+		if ($includeReadMore) {
+			$ret .= ' <a href="'.$this->fullUrl.'" class="readMore">[Read More]</a>';
 		}
 		
 		return $ret;

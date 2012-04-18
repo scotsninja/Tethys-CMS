@@ -1,9 +1,11 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /ajax/
+Disallow: /cache/
 Disallow: /ckeditor/
 Disallow: /css/
 Disallow: /js/
+Disallow: /min/
 Disallow: /plupload/
 Disallow: /recaptcha/
 Disallow: /src/

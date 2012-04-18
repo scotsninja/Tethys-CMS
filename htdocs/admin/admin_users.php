@@ -186,10 +186,6 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 					<th width="1%">Delete</th>
 				</tr>
 			<?php foreach ($userArr as $u) {
-				$dateJoined = new DateTime($u->dateJoined);
-				$ll = $u->getLastLogin();
-				$lastLogin = ($ll) ? new DateTime($ll) : null;
-				$lastLogin = ($lastLogin) ? $lastLogin->format(DATE_DISPLAY_FORMAT_DATETIME) : null;
 				$status = $u->getStatus();
 				?>
 				<tr>
@@ -199,8 +195,7 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 					<td><?php echo $u->name;; ?></td>
 					<td><?php echo $u->email; ?></td>
 					<td nowrap="nowrap"><?php echo $u->level; ?></td>
-					<td><?php echo $lastLogin; ?><br />
-						<?php echo $dateJoined->format(DATE_DISPLAY_FORMAT_DATETIME); ?></td>
+					<td><?php echo $GLOBALS['dtObj']->format($u->getLastLogin()); ?><br /><?php echo $GLOBALS['dtObj']->format($u->dateJoined); ?></td>
 					<td nowrap="nowrap" class="tdCenter"><a href="admin_users.php?v=list&t=delete&id=<?php echo $u->id; ?>" onclick="return confirm('This will permanently delete the user account.  Are you sure you wish to continue?');"><img class="tdIcon" src="/img/icons/cancel.png" alt="Delete" /></a></td>
 				</tr>
 			<?php } ?>

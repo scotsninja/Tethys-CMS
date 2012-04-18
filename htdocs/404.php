@@ -4,9 +4,10 @@
 require_once('src/common.php');
 
 /* meta tags */
-$metaTitle = 'Page Not Found';
-$metaDescription = 'The requested resource could not be found but may be available again in the future.';
-$metaRobots = 'none';
+$includes['meta']['title'] = 'Page Not Found';
+$includes['meta']['description'] = 'The requested resource could not be found but may be available again in the future.';
+$includes['meta']['robots'] = 'none';
+$includes['meta']['js-store'] = false;
 
 $includes['css'] = '<style type="text/css">
 	#leftCol {	

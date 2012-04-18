@@ -11,7 +11,7 @@ $blogs = Blog::search();
 			<div class="heading">Blogs</div>
 			<ul>
 			<?php foreach ($blogs as $b) { ?>
-				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo $b->description; ?></li>
 			<?php } ?>
 			</ul>
 		</div>
@@ -41,7 +41,7 @@ $blogs = Blog::search();
 		<?php $i = 0;
 		foreach ($posts as $post) { ?>
 			<div class="post <?php echo ($i++%2==0) ? 'evenRow' : 'oddRow'; ?>">
-			<?php if (new DateTime('now', new DateTimeZone(DATE_DEFAULT_TIMEZONE)) < new DateTime($post->datePosted)) { ?>
+			<?php if ($GLOBALS['dtObj']->comp('now', $post->datePosted) < 0) { ?>
 				<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?> (Not Active)</a></h4>
 			<?php } else { ?>
 				<h4><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?></a></h4>
@@ -56,7 +56,8 @@ $blogs = Blog::search();
 				<?php } ?>
 				</div>
 			<?php } ?>
-				<div class="date">Posted on <?php $dt = new DateTime($post->datePosted, new DateTimeZone(DATE_DEFAULT_TIMEZONE)); echo $dt->format(DATE_DISPLAY_FORMAT_DATETIME); ?></div>
+				<div class="comments"><?php echo outputDisqusCommentCount(CORE_DOMAIN.substr($post->fullUrl,1)); ?></div>
+				<div class="date">Posted on <?php echo $GLOBALS['dtObj']->format($post->datePosted); ?></div>
 			</div>
 		<?php } ?>
 		<?php if (ceil($totalPosts/$perPage) > 1) { ?>
@@ -82,7 +83,7 @@ $blogs = Blog::search();
 			<div class="heading">Blogs</div>
 			<ul>
 			<?php foreach ($blogs as $b) { ?>
-				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo str_replace(',', ', ', $b->categories); ?></li>
+				<li><a href="<?php echo $b->fullUrl; ?>"><?php echo $b->name; ?></a> - <?php echo $b->description; ?></li>
 			<?php } ?>
 			</ul>
 		</div>
@@ -125,3 +126,4 @@ $blogs = Blog::search();
 		<div id="feed"><a href="/<?php echo $rss; ?>"><img src="/<?php echo CORE_DIR_DEPTH.CORE_ICON_PATH.'rss_32.png'; ?>" alt="RSS Feed" / > Subscribe</a></div>
 	<?php } ?>
 </div>
+<?php outputDisqusCommentCountScript(); ?>

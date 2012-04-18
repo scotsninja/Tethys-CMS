@@ -41,8 +41,8 @@ abstract class Outputtable {
 	}
 	
 	// outputs a search page for the class
-	final public static function outputSearch($params = null) {
-		$template = 'obj_search.php';
+	final public static function outputSearch($params = null, $template = null) {
+		$template = ($template != '') ? $template : 'obj_search.php';
 		
 		if ($template == '' || !file_exists(CORE_TEMPLATE_DIR.$template)) {
 			throw new Exception('Error loading template.');

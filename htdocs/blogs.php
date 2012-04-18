@@ -23,13 +23,13 @@ if ($blog && $postUrl != '') {
 
 /* meta tags */
 if ($post) {
-	$metaTitle = $blog->name . ' - ' . $post->title;
-	$metaDescription = $post->getBlurb(100, false);
-	$metaKeywords = $post->tags;
+	$includes['meta']['title'] = $blog->name . ' - ' . $post->title;
+	$includes['meta']['description'] = $post->getBlurb(100, false);
+	$includes['meta']['keywords'] = $post->tags;
 } else if ($blog) {
-	$metaTitle = $blog->name;
-	$metaDescription = $blog->description;
-	$metaKeywords = $blog->categories;
+	$includes['meta']['title'] = $blog->name;
+	$includes['meta']['description'] = $blog->description;
+	$includes['meta']['keywords'] = $blog->categories;
 }
 
 $includes['headers'] = '<link rel="alternate" type="application/rss+xml" title="'.$blog->name.'" href="'.CORE_DOMAIN.CORE_RSS_DIR.$blog->getRssFile().'" />';
