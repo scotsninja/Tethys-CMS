@@ -10,12 +10,20 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
 
-RewriteCond %{HTTP_HOST} ^www\.20xxproductions\.com$ [NC]
-RewriteRule ^(.*)$ http://20xxproductions.com/$1 [NC,L]
+#RewriteCond %{HTTP_HOST} ^www\.20xxproductions\.com$ [NC]
+#RewriteRule ^(.*)$ http://20xxproductions.com/$1 [R=301,NC,L]
 
 # don't route requests for sitemap or favicon through base-page
 RewriteRule ^sitemap\.xml$ sitemap.xml [NC,L]
 RewriteRule ^favicon\.ico$ favicon.ico [NC,L]
+
+# redirect common index pages to single url
+RewriteRule ^index\.html/?$ / [R=301,L,NC]
+RewriteRule ^index\.htm/?$ / [R=301,L,NC]
+RewriteRule ^index\.asp/?$ / [R=301,L,NC]
+RewriteRule ^index\.aspx/?$ / [R=301,L,NC]
+RewriteRule ^index\.default.asp/?$ / [R=301,L,NC]
+RewriteRule ^index\.php/?$ / [R=301,L,NC]
 
 # redirect requests to base-page.php
 RewriteCond %{SCRIPT_FILENAME} !-d
@@ -43,7 +51,7 @@ Header set Cache-Control "max-age=29030400, public"
 </filesMatch>
 
 # 2 HOURS
-<filesMatch "\.(xml|txt)$">
+<filesMatch "\.(xml|txt|rss)$">
 Header set Cache-Control "max-age=7200, must-revalidate"
 </filesMatch>
 
@@ -54,7 +62,7 @@ Header set Cache-Control "max-age=604800, public"
  
 # NEVER CACHE
 <filesMatch "^!(min)\.(html|htm|php|cgi|pl)$">
-Header set Cache-Control "max-age=50, no-cache"
+Header set Cache-Control "max-age=1, no-cache"
 Header unset Last-Modified
 </filesMatch>
 

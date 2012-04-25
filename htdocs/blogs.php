@@ -38,7 +38,7 @@ $includes['css'] = '<style type="text/css">
 	#blog-header {
 		margin:10px 0px;
 		padding:10px;
-		background-color:#777;
+		background-color:#666;
 		color:white;
 	}
 	#blog-header h1 a {
@@ -100,7 +100,7 @@ $includes['css'] = '<style type="text/css">
 	}
 	.post .tags {
 		margin:6px 6px 10px 6px;
-		background-color: #6af;
+		background-color: #7bf;
 		border: 2px solid #48d;
 		border-radius:10px;
 		-moz-border-radius:10px;
@@ -111,7 +111,7 @@ $includes['css'] = '<style type="text/css">
 	}
 	
 	.post .tags a, .post .tags a:visited {
-		color:#039;
+		color:#04a;
 		text-decoration:none;
 	}
 	

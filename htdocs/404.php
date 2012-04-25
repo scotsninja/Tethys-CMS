@@ -3,6 +3,8 @@
 
 require_once('src/common.php');
 
+header("HTTP/1.0 404 Not Found");
+
 /* meta tags */
 $includes['meta']['title'] = 'Page Not Found';
 $includes['meta']['description'] = 'The requested resource could not be found but may be available again in the future.';

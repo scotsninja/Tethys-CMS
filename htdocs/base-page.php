@@ -29,6 +29,10 @@ switch ($page) {
 		$page = 'blogs.php';
 		$dPage = 'blogs';
 	break;
+	case 'contact':
+		$page = 'contact.php';
+		$dPage = 'contact';
+	break;
 	default:
 		$dPage = $page;
 	break;

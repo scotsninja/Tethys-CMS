@@ -11,7 +11,12 @@ $pageTitle = ($view == 'details') ? 'Blog Manage' : 'Blog Search';
 if ($view == 'details') {
 	switch($_GET['p']) {
 		case 'posts':
-			$panel = ($_GET['pid'] > 0) ? 'posts-details' : 'posts-search';
+			if ($_GET['pid'] > 0) {
+				$panel = 'posts-details';
+				$post = BlogPost::getById($_GET['pid']);
+			} else {
+				$panel = 'posts-search';
+			}
 		break;
 		case 'settings':
 		default:
@@ -24,6 +29,10 @@ if ($view == 'details') {
 if ($view == 'details') {
 	if (is_numeric($_GET['id'])) {
 		$tempBlog = Blog::getById($_GET['id']);
+		
+		if ($tempBlog && $post && $post->blog != $tempBlog->id) {
+			unset($post);
+		}
 	}
 	
 	if ($tempBlog) {
@@ -694,7 +703,7 @@ include(CORE_DIR_DEPTH.CORE_INCLUDE_DIR.'admin_header.php'); ?>
 			<div id="blogManager"></div>
 		</div>
 	</div>
-	<div style="display:hidden"><input type="hidden" id="blogId" value="<?php echo ($tempBlog) ? $tempBlog->id : 0; ?>" /><input type="hidden" id="postId" value="" /></div>
+	<div style="display:hidden"><input type="hidden" id="blogId" value="<?php echo ($tempBlog) ? $tempBlog->id : 0; ?>" /><input type="hidden" id="postId" value="<?php echo ($post) ? $post->id : null; ?>" /></div>
 <?php } else { ?>
 	<div><a href="admin_blogs.php?v=details&t=add" class="button button-blue">Add New Blog</a></div><br />
 	<form method="GET" action="admin_blogs.php">

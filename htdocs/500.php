@@ -3,6 +3,8 @@
 
 require_once('src/common.php');
 
+header("HTTP/1.0 500 Internal Server Error");
+
 /* meta tags */
 $includes['meta']['title'] = 'Server Error';
 $includes['meta']['description'] = 'Internal server error';

@@ -17,9 +17,9 @@ $blogs = Blog::search();
 	<div class="box">
 		<div class="post">
 		<?php if ($GLOBALS['dtObj']->comp('now', $postDate) < 0) { ?>
-			<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><?php echo $postTitle; ?> (Not Active)</h4>
+			<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><?php echo $postTitle; ?> (Not Active)<?php if ($this->canEdit('setValue')) { ?> <a href="/admin/admin_blogs.php?v=details&t=edit&p=posts&id=<?php echo $this->blog; ?>&pid=<?php echo $this->id; ?>"><img class="tdIcon" style="position:inherit;" src="/img/icons/config.png" alt="Edit" /></a><?php } ?></h4>
 		<?php } else { ?>
-			<h4><?php echo $postTitle; ?></h4>
+			<h4><?php echo $postTitle; ?><?php if ($this->canEdit('setValue')) { ?> <a href="/admin/admin_blogs.php?v=details&t=edit&p=posts&id=<?php echo $this->blog; ?>&pid=<?php echo $this->id; ?>"><img class="tdIcon" style="position:inherit;" src="/img/icons/config.png" alt="Edit" /></a><?php } ?></h4>
 		<?php } ?>
 			<div class="date">Posted on <?php echo $GLOBALS['dtObj']->format($postDate); ?></div>
 			<div class="excerpt"><?php echo $postValue; ?></div>

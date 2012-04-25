@@ -41,3 +41,7 @@ width: 82%;
 .elevencol {
 width: 91.35%;
 }
+
+#mainContentArea {
+	height:600px;
+}

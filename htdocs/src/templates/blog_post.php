@@ -42,9 +42,9 @@ $blogs = Blog::search();
 		foreach ($posts as $post) { ?>
 			<div class="post <?php echo ($i++%2==0) ? 'evenRow' : 'oddRow'; ?>">
 			<?php if ($GLOBALS['dtObj']->comp('now', $post->datePosted) < 0) { ?>
-				<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?> (Not Active)</a></h4>
+				<h4 class="message message-notice" style="display:block;width:100%;text-align:left;"><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?> (Not Active)</a><?php if ($post->canEdit('setValue')) { ?> <a href="/admin/admin_blogs.php?v=details&t=edit&p=posts&id=<?php echo $id; ?>&pid=<?php echo $post->id; ?>"><img class="tdIcon" style="position:inherit;" src="/img/icons/config.png" alt="Edit" /></a><?php } ?></h4>
 			<?php } else { ?>
-				<h4><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?></a></h4>
+				<h4><a href="<?php echo $post->fullUrl; ?>"><?php echo $post->title; ?></a><?php if ($post->canEdit('setValue')) { ?> <a href="/admin/admin_blogs.php?v=details&t=edit&p=posts&id=<?php echo $id; ?>&pid=<?php echo $post->id; ?>"><img class="tdIcon" src="/img/icons/config.png" alt="Edit" /></a><?php } ?></h4>
 			<?php } ?>
 				<div class="excerpt"><?php echo $post->getBlurb(); ?></div>
 			<?php if ($post->tags != '') { ?>

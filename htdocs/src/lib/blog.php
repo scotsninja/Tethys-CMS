@@ -803,6 +803,7 @@ class Blog extends Outputtable implements iTethysBase {
 	
 	public function getOutputParams() {
 		$params = array(
+			'id' => $this->id,
 			'name' => $this->name,
 			'icon' => $this->imagePath,
 			'baseUrl' => $this->fullUrl,

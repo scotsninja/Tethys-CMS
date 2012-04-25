@@ -565,6 +565,7 @@ class BlogPost extends Outputtable implements iTethysBase {
 		$this->getValue(true);
 		
 		$params = array(
+			'obj' => $this,
 			'name' => $tempBlog->name,
 			'icon' => $tempBlog->imagePath,
 			'baseUrl' => $tempBlog->fullUrl,

@@ -3,6 +3,8 @@
 
 require_once('src/common.php');
 
+header("HTTP/1.0 403 Forbidden");
+
 /* meta tags */
 $includes['meta']['title'] = 'Forbidden';
 $includes['meta']['description'] = 'The request was a legal request, but the server is refusing to respond to it.';
