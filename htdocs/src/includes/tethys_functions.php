@@ -398,36 +398,37 @@ function outputSharingLinks($include = null) {
 		$include = array('twitter', 'google', 'facebook');
 	}
 	
+	$trackUrl = $GLOBALS['dUrl'];	// standardize the shared url (strips anchor links from url)
 	$ret = '';
-	
+
 	foreach ($include as $i) {	
 		switch($i) {
 			case 'share':
-				$ret .= '<span class="st_sharethis_hcount" displayText="ShareThis"></span>';
+				$ret .= '<span class="st_sharethis_hcount" displayText="ShareThis" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'facebook':
-				$ret .= '<span class="st_fblike_hcount" displayText="Facebook Like"></span>';
+				$ret .= '<span class="st_fblike_hcount" displayText="Facebook Like" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'twitter':
-				$ret .= '<span class="st_twitter_hcount" displayText="Tweet"></span>';
+				$ret .= '<span class="st_twitter_hcount" displayText="Tweet" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'google':
-				$ret .= '<span class="st_plusone_hcount" displayText="Google +1"></span>';
+				$ret .= '<span class="st_plusone_hcount" displayText="Google +1" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'reddit':
-				$ret .= '<span class="st_reddit_hcount" displayText="Reddit"></span>';
+				$ret .= '<span class="st_reddit_hcount" displayText="Reddit" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'pinterest':
-				$ret .= '<span class="st_pinterest_hcount" displayText="Pinterest"></span>';
+				$ret .= '<span class="st_pinterest_hcount" displayText="Pinterest" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'linkedin':
-				$ret .= '<span class="st_linkedin_hcount" displayText="LinkedIn"></span>';
+				$ret .= '<span class="st_linkedin_hcount" displayText="LinkedIn" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'digg':
-				$ret .= '<span class="st_digg_hcount" displayText="Digg"></span>';
+				$ret .= '<span class="st_digg_hcount" displayText="Digg" st_url="'.$trackUrl.'"></span>';
 			break;
 			case 'email':
-				$ret .= '<span class="st_email_hcount" displayText="Email"></span>';
+				$ret .= '<span class="st_email_hcount" displayText="Email" st_url="'.$trackUrl.'"></span>';
 			break;
 		}
 	}

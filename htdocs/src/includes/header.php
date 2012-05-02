@@ -27,8 +27,7 @@ echo $includes['headers'];
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all" href="/<?php echo CORE_CSS_DIR; ?>reset.css" />
-<!-- 1140px Grid styles for IE -->
-<!--[if lte IE 9]><link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>/ie.css" type="text/css" media="screen" /><![endif]-->
+
 <?php /* Minify/Compress CSS Files */
 $cssFiles = array();
 if ($includeParams['jquery-ui']) {
@@ -49,6 +48,9 @@ if (file_exists(CORE_DIR_DEPTH.CORE_CSS_DIR.'local.css')) {
 ?>
 
 <link rel="stylesheet" type="text/css" media="all" href="/min/?b=<?php echo substr(CORE_CSS_DIR, 0, strlen(CORE_CSS_DIR)-1); ?>&amp;f=<?php echo implode(',', $cssFiles); ?>" />
+
+<!-- 1140px Grid styles for IE -->
+<!--[if lte IE 9]><link rel="stylesheet" href="/<?php echo CORE_CSS_DIR; ?>/ie.css" type="text/css" media="screen" /><![endif]-->
 
 <?php if (isset($includes['css'])) {
 echo $includes['css'];
