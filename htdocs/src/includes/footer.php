@@ -48,7 +48,9 @@ echo $includes['js'];
 	window.onload = init;
 <?php } ?>
 </script>
+<?php if (!CORE_DEVELOPMENT && GOOGLE_ANALYTICS_ID != '' && (GOOGLE_ANALYTICS_IGNORE_LIST == '' || !in_array($_SERVER['REMOTE_ADDR'], explode(',',GOOGLE_ANALYTICS_IGNORE_LIST)))) { ?>
 <!-- place analytics code here -->
+<?php } ?>
 </body>
 </html>
 <?php recordPageView(); ?>

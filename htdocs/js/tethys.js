@@ -8,7 +8,7 @@ $MONTHS_SHORT = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'
 /* Global Functions */
 
 function trackEvent(cat, act, lab) {
-	if (_gaq!=undefined) {
+	if ('_gaq' in window) {
 		_gaq.push(['_trackEvent', cat, act, lab]);
 	}
 }
